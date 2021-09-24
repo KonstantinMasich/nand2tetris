@@ -25,7 +25,7 @@
             D=M-D
             M=-1
             @StackTest__eq__0
-                    D;JEQ
+                    D;{'op': 'JEQ', 'template': '// {opname}\n            @SP\n            AM=M-1\n            D=M\n            A=A-1\n            D=M-D\n            M=-1\n            @{label}\n                    D;{op}\n            @SP\n            A=M-1\n            M=0 \n        ({label})\n'}
             @SP
             A=M-1
             M=0 
@@ -52,7 +52,7 @@
             D=M-D
             M=-1
             @StackTest__eq__1
-                    D;JEQ
+                    D;{'op': 'JEQ', 'template': '// {opname}\n            @SP\n            AM=M-1\n            D=M\n            A=A-1\n            D=M-D\n            M=-1\n            @{label}\n                    D;{op}\n            @SP\n            A=M-1\n            M=0 \n        ({label})\n'}
             @SP
             A=M-1
             M=0 
@@ -79,7 +79,7 @@
             D=M-D
             M=-1
             @StackTest__eq__2
-                    D;JEQ
+                    D;{'op': 'JEQ', 'template': '// {opname}\n            @SP\n            AM=M-1\n            D=M\n            A=A-1\n            D=M-D\n            M=-1\n            @{label}\n                    D;{op}\n            @SP\n            A=M-1\n            M=0 \n        ({label})\n'}
             @SP
             A=M-1
             M=0 
@@ -106,7 +106,7 @@
             D=M-D
             M=-1
             @StackTest__lt__3
-                    D;JLT
+                    D;{'op': 'JLT', 'template': '// {opname}\n            @SP\n            AM=M-1\n            D=M\n            A=A-1\n            D=M-D\n            M=-1\n            @{label}\n                    D;{op}\n            @SP\n            A=M-1\n            M=0 \n        ({label})\n'}
             @SP
             A=M-1
             M=0 
@@ -133,7 +133,7 @@
             D=M-D
             M=-1
             @StackTest__lt__4
-                    D;JLT
+                    D;{'op': 'JLT', 'template': '// {opname}\n            @SP\n            AM=M-1\n            D=M\n            A=A-1\n            D=M-D\n            M=-1\n            @{label}\n                    D;{op}\n            @SP\n            A=M-1\n            M=0 \n        ({label})\n'}
             @SP
             A=M-1
             M=0 
@@ -160,7 +160,7 @@
             D=M-D
             M=-1
             @StackTest__lt__5
-                    D;JLT
+                    D;{'op': 'JLT', 'template': '// {opname}\n            @SP\n            AM=M-1\n            D=M\n            A=A-1\n            D=M-D\n            M=-1\n            @{label}\n                    D;{op}\n            @SP\n            A=M-1\n            M=0 \n        ({label})\n'}
             @SP
             A=M-1
             M=0 
@@ -187,7 +187,7 @@
             D=M-D
             M=-1
             @StackTest__gt__6
-                    D;JGT
+                    D;{'op': 'JGT', 'template': '// {opname}\n            @SP\n            AM=M-1\n            D=M\n            A=A-1\n            D=M-D\n            M=-1\n            @{label}\n                    D;{op}\n            @SP\n            A=M-1\n            M=0 \n        ({label})\n'}
             @SP
             A=M-1
             M=0 
@@ -214,7 +214,7 @@
             D=M-D
             M=-1
             @StackTest__gt__7
-                    D;JGT
+                    D;{'op': 'JGT', 'template': '// {opname}\n            @SP\n            AM=M-1\n            D=M\n            A=A-1\n            D=M-D\n            M=-1\n            @{label}\n                    D;{op}\n            @SP\n            A=M-1\n            M=0 \n        ({label})\n'}
             @SP
             A=M-1
             M=0 
@@ -241,7 +241,7 @@
             D=M-D
             M=-1
             @StackTest__gt__8
-                    D;JGT
+                    D;{'op': 'JGT', 'template': '// {opname}\n            @SP\n            AM=M-1\n            D=M\n            A=A-1\n            D=M-D\n            M=-1\n            @{label}\n                    D;{op}\n            @SP\n            A=M-1\n            M=0 \n        ({label})\n'}
             @SP
             A=M-1
             M=0 
@@ -272,7 +272,7 @@
             AM=M-1
             D=M
             A=A-1
-            M=M+D
+            M=M{'op': '-', 'template': '// {opname}\n            @SP\n            AM=M-1\n            D=M\n            A=A-1\n            M=M{op}D\n'}D
 // push constant 112
             @112
             D=A
@@ -285,17 +285,17 @@
             AM=M-1
             D=M
             A=A-1
-            M=M-D
+            M=M{'op': '-', 'template': '// {opname}\n            @SP\n            AM=M-1\n            D=M\n            A=A-1\n            M=M{op}D\n'}D
 // neg
             @SP
             A=M-1
-            M=-M
+            M={'op': '-', 'template': '// {opname}\n            @SP\n            A=M-1\n            M={op}M\n'}M
 // and
             @SP
             AM=M-1
             D=M
             A=A-1
-            M=M&D
+            M=M{'op': '&', 'template': '// {opname}\n            @SP\n            AM=M-1\n            D=M\n            A=A-1\n            M=M{op}D\n'}D
 // push constant 82
             @82
             D=A
@@ -308,11 +308,11 @@
             AM=M-1
             D=M
             A=A-1
-            M=M|D
+            M=M{'op': '|', 'template': '// {opname}\n            @SP\n            AM=M-1\n            D=M\n            A=A-1\n            M=M{op}D\n'}D
 // not
             @SP
             A=M-1
-            M=!M
+            M={'op': '!', 'template': '// {opname}\n            @SP\n            A=M-1\n            M={op}M\n'}M
 
 
     (INFINITE__END__LOOP)

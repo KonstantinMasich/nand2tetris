@@ -13,9 +13,6 @@ class Compiler:
         self.debug       : bool = debug                              # Debug mode switch
         self.fname       : str  = f'{vm_fpath.split("/")[-1][:-3]}'  # Mark for service labels
 
-    # ════════════════════════════════════════════════════════════════════════════════════════════ #
-    #                                     TRANSLATION METHODS                                      #
-    # ════════════════════════════════════════════════════════════════════════════════════════════ #
     def translate_instruction(self, line: str) -> (str, None):
         """Returns a translated .vm line in the form of a string of assembly instructions,
         or None if a line is a valid instruction.
@@ -38,16 +35,11 @@ class Compiler:
 
     def translate_arithmetic(self, cmd: str) -> str:
         """Returns a translated .vm line for arithmetic commands - add, sub, etc."""
-        if op := ARITHMETIC_BINARY_OPS.get(cmd, None):
-            return TMPL_CMD_BINARY.format(opname=cmd, op=op)
-        elif op := ARITHMETIC_UNARY_OPS.get(cmd, None):
-            return TMPL_CMD_UNARY.format(opname=cmd, op=op)
-        else:
-            op    = ARITHMETIC_COMP_OPS[cmd]
-            label = LBL_IF_ELSE.format(file_mark=self.fname, cmd=cmd,
-                                       if_else_mark=self.service_mark)
+        kwargs = {'opname': cmd, 'op': ARITHMETIC_OPS[cmd]}
+        if cmd in ['eq', 'gt', 'lt']:
+            kwargs['label'] = LBL_IF_ELSE.format(fname=self.fname, cmd=cmd, mark=self.service_mark)
             self.service_mark += 1
-            return TMPL_CMD_COMP.format(opname=cmd, op=op, label=label)
+        return ARITHMETIC_OPS[cmd]['template'].format(**kwargs)
 
     def compile(self) -> str:
         """Returns a string of assembly commands, as translated from the specified file."""

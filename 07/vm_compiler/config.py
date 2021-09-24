@@ -75,10 +75,8 @@ TMPL_PUSHPOP = {
             M=D\n"""
     }
 }
-# Push/pop commands for LCL, THIS and THAT use the same template as ARG, so copy those:
-TMPL_PUSHPOP['local'] = TMPL_PUSHPOP['argument']
-TMPL_PUSHPOP['this']  = TMPL_PUSHPOP['argument']
-TMPL_PUSHPOP['that']  = TMPL_PUSHPOP['argument']
+# Push/pop commands for LCL, THIS and THAT use the same template as ARG, so just copy those:
+TMPL_PUSHPOP['local'] = TMPL_PUSHPOP['this'] = TMPL_PUSHPOP['that'] = TMPL_PUSHPOP['argument']
 
 
 # ════════════════════════════════════════════════════════════════════════════════════════════════ #
@@ -110,15 +108,58 @@ TMPL_CMD_COMP = """// {opname}
             A=M-1
             M=0 
         ({label})\n"""
+
 ARITHMETIC_BINARY_OPS = {'add': '+', 'sub': '-', 'and': '&', 'or': '|'}
 ARITHMETIC_UNARY_OPS  = {'neg': '-', 'not': '!'}
 ARITHMETIC_COMP_OPS   = {'eq': 'JEQ', 'gt': 'JGT', 'lt': 'JLT'}
 
+ARITHMETIC_OPS = {
+    'neg': {
+        'op': '-',
+        'template': """// {opname}
+            @SP
+            A=M-1
+            M={op}M\n"""
+    },
+    'add': {
+        'op': '-',
+        'template': """// {opname}
+            @SP
+            AM=M-1
+            D=M
+            A=A-1
+            M=M{op}D\n"""
+    },
+    'eq': {
+        'op': 'JEQ',
+        'template': """// {opname}
+            @SP
+            AM=M-1
+            D=M
+            A=A-1
+            D=M-D
+            M=-1
+            @{label}
+                    D;{op}
+            @SP
+            A=M-1
+            M=0 
+        ({label})\n"""
+    }
+}
+# Unary operators: add "not" with the same template as "neg":
+ARITHMETIC_OPS['not'] = {'op': '!', 'template': ARITHMETIC_OPS['neg']['template']}
+# Binary operators: add "sub", "and", "or" with the same template as "add":
+for opname, op in zip(['sub', 'and', 'or'], ['-', '&', '|']):
+    ARITHMETIC_OPS[opname] = {'op': op, 'template': ARITHMETIC_OPS['add']['template']}
+# Relation operators: add "gt", "lt", with the same template as "eq":
+for opname, op in zip(['gt', 'lt'], ['JGT', 'JLT']):
+    ARITHMETIC_OPS[opname] = {'op': op, 'template': ARITHMETIC_OPS['eq']['template']}
 
 # ════════════════════════════════════════════════════════════════════════════════════════════════ #
 #                                           LABELS                                                 #
 # ════════════════════════════════════════════════════════════════════════════════════════════════ #
-LBL_IF_ELSE = '{file_mark}__{cmd}__{if_else_mark}'
+LBL_IF_ELSE = '{fname}__{cmd}__{mark}'
 
 
 # ════════════════════════════════════════════════════════════════════════════════════════════════ #

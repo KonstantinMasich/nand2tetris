@@ -1,6 +1,6 @@
 ## Implementation details
 
-**Note**: this implementation of VM compiler is different from the one proposed in the course. Though main idea is the same, of course.
+**Note**: this implementation of VM compiler is different from the one proposed in the course, to be shorter and faster to write. Though main idea is the same, of course.
 
  * `main.py` compiles everything in MemoryAccess and StackArithmetic folders.
  * `compiler.py` holds a Compiler, which gets a single .vm file as an input and returns a string (not a file!) of assembly commands.
@@ -8,9 +8,9 @@
 
 Compiler makes extensive use of templates defined in `config.py`, which allows for clean and short code.
 
-When used with `debug=True` setting, Compiler adds a special instruction `@1111` after each translated VM command. This way it's easy to see (when using the provided CPU Emulator) whole assembly code blocks which correspond to distinct VM commands. That makes testing and debugging easier.
+When used with `debug=True` setting, Compiler adds a special instruction `@11111` after each translated VM command. This way it's easy to see (when using the provided CPU Emulator) whole assembly code blocks which correspond to distinct VM commands. That makes testing and debugging easier.
 
-Assembly code is optimised whenever it's possible to be as short as possible. This is crucial because it's a bottleneck: if a VM instruction is translated into 10 assembly commands instead of optimal solution with, for example, 5 commands, then it will run 2x times slower than optimum - 10 clock cycles instead of 5. 
+Assembly code is optimised whenever it's possible - to be as short. This is crucial because it's a bottleneck: if a VM instruction is translated into 10 assembly commands instead of optimal solution with, for example, 5 commands, then it will run 2x times slower than optimum - 10 clock cycles instead of 5. 
 
 ### Push/pop commands
 
