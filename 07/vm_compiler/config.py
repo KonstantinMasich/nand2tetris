@@ -75,11 +75,10 @@ TMPL_PUSHPOP = {
             M=D\n"""
     }
 }
-# Push/pop commands for LCL, THIS and THAT use the same template as ARG, so copy it:
+# Push/pop commands for LCL, THIS and THAT use the same template as ARG, so copy those:
 TMPL_PUSHPOP['local'] = TMPL_PUSHPOP['argument']
 TMPL_PUSHPOP['this']  = TMPL_PUSHPOP['argument']
 TMPL_PUSHPOP['that']  = TMPL_PUSHPOP['argument']
-# TMPL_PUSHPOP['pointer'] = TMPL_PUSHPOP['argument']
 
 
 # ════════════════════════════════════════════════════════════════════════════════════════════════ #
@@ -115,10 +114,12 @@ ARITHMETIC_BINARY_OPS = {'add': '+', 'sub': '-', 'and': '&', 'or': '|'}
 ARITHMETIC_UNARY_OPS  = {'neg': '-', 'not': '!'}
 ARITHMETIC_COMP_OPS   = {'eq': 'JEQ', 'gt': 'JGT', 'lt': 'JLT'}
 
+
 # ════════════════════════════════════════════════════════════════════════════════════════════════ #
 #                                           LABELS                                                 #
 # ════════════════════════════════════════════════════════════════════════════════════════════════ #
 LBL_IF_ELSE = '{file_mark}__{cmd}__{if_else_mark}'
+
 
 # ════════════════════════════════════════════════════════════════════════════════════════════════ #
 #                                            MISC                                                  #
