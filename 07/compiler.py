@@ -1,0 +1,62 @@
+# ╔═════════════════════╗
+# ║ Python version: 3.9 ║
+# ╚═════════════════════╝
+from config import *
+
+
+class Compiler:
+    """Translates a single .vm file to assembly."""
+
+    def __init__(self, vm_fname: str, debug: bool = False):
+        self.vm_fname    : str  = vm_fname            # Target VM and ASM filenames
+        self.unique_mark : str  = f'{vm_fname[:-3]}'  # A mark for labels: file name without ".vm"
+        self.service_mark: int  = 0                   # A mark used for creating internal service labels
+        self.debug       : bool = debug               # Debug mode switch
+
+    # ════════════════════════════════════════════════════════════════════════════════════════════ #
+    #                                     TRANSLATION METHODS                                      #
+    # ════════════════════════════════════════════════════════════════════════════════════════════ #
+    def translate_instruction(self, line: str) -> (str, None):
+        """Returns a translated .vm line in the form of a string of assembly instructions,
+        or None if a line is a valid instruction.
+        """
+        if clean_line := line.replace('\n', '').split('//')[0].split():
+            cmd = clean_line[0]
+            if cmd in PUSH_POP_COMMANDS:
+                return self.translate_push_pop(cmd, clean_line[1], clean_line[2])
+            elif cmd in ARITHMETIC_COMMANDS:
+                return self.translate_arithmetic(cmd)
+            return clean_line
+
+    @staticmethod
+    def translate_push_pop(cmd: str, segment: str, index: str) -> str:
+        """Returns a translated .vm line for push or pop commands."""
+        offset = int(index)
+        kwargs = {'segment': SEGMENTS.get(segment, segment), 'index': index,
+                  'val': index, 'addr_temp': 5 + offset, 'addr_ptr': 3 + offset}
+        return TMPL_PUSHPOP[segment][cmd].format(**kwargs)
+
+    def translate_arithmetic(self, cmd: str) -> str:
+        """Returns a translated .vm line for arithmetic commands - add, sub, etc."""
+        if op := ARITHMETIC_BINARY_OPS.get(cmd, None):
+            return TMPL_CMD_BINARY.format(opname=cmd, op=op)
+        elif op := ARITHMETIC_UNARY_OPS.get(cmd, None):
+            return TMPL_CMD_UNARY.format(opname=cmd, op=op)
+        else:
+            op    = ARITHMETIC_COMP_OPS[cmd]
+            label = LBL_IF_ELSE.format(file_mark=self.unique_mark, cmd=cmd,
+                                       if_else_mark=self.service_mark)
+            self.service_mark += 1
+            return TMPL_CMD_COMP.format(opname=cmd, op=op, label=label)
+
+    def compile(self) -> str:
+        """Returns a string of assembly commands, as translated from the specified file."""
+        asm_code = FILE_HEADER.format(fname=self.vm_fname)
+        with open(self.vm_fname, 'r') as vm_file:
+            for r in vm_file.readlines():
+                if assembly_instruction := self.translate_instruction(r):
+                    asm_code += assembly_instruction
+                    if self.debug:
+                        asm_code += DBG_INSTRUCTION
+        asm_code += FILE_FOOTER.format(fname=self.vm_fname)
+        return asm_code
