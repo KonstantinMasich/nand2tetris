@@ -8,8 +8,6 @@ from compiler import Compiler
 
 def compile_dir(vm_dir: str, debug: bool = False):
     """Compiles all the .vm files in a given directory into a single .asm file."""
-    if 'Static' in vm_dir:
-        return
     print(f'{"="*100}\nCompiling directory {vm_dir}...')
     if debug:
         print(f'Debug mode is ON; separator instruction is inserted.')
@@ -27,10 +25,9 @@ def compile_dir(vm_dir: str, debug: bool = False):
 
 
 def main():
-    for directory in os.listdir('../StackArithmetic'):
-        compile_dir(f'../StackArithmetic/{directory}')
-    for directory in os.listdir('../MemoryAccess'):
-        compile_dir(f'../MemoryAccess/{directory}')
+    for directory in ['StackArithmetic', 'MemoryAccess']:
+        for subdirectory in os.listdir(f'../{directory}'):
+            compile_dir(f'../{directory}/{subdirectory}')
 
 
 if __name__ == '__main__':

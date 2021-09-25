@@ -25,11 +25,10 @@ class Compiler:
                 return self.translate_arithmetic(cmd)
             return clean_line
 
-    @staticmethod
-    def translate_push_pop(cmd: str, segment: str, index: str) -> str:
+    def translate_push_pop(self, cmd: str, segment: str, index: str) -> str:
         """Returns a translated .vm line for push or pop commands."""
         offset = int(index)
-        kwargs = {'segment': SEGMENTS.get(segment, segment), 'index': index,
+        kwargs = {'segment': SEGMENTS.get(segment, segment), 'index': index, 'fname': self.fname,
                   'val': index, 'addr_temp': 5 + offset, 'addr_ptr': 3 + offset}
         return TMPL_PUSHPOP[segment][cmd].format(**kwargs)
 
@@ -50,5 +49,4 @@ class Compiler:
                     asm_code += assembly_instruction
                     if self.debug:
                         asm_code += DBG_INSTRUCTION
-        asm_code += FILE_FOOTER.format(fname=self.fname)
-        return asm_code
+        return asm_code + FILE_FOOTER.format(fname=self.fname)
