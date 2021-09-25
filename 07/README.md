@@ -82,9 +82,9 @@ Relational operators, where `op` ∈ {JNE, JGE, JLE} (here these operators are i
     M=0       // stack[last] = False; We ASSUME that tested condition is False
     @{label}
             D;{op} // If it's indeed False - then jump to the end 
-    @SP       // And if it's False - set it as False
+    @SP       // And if it's True - set it as True
     A=M-1
-    M=0       // stack[last] = False
+    M=-1      // stack[last] = True
     ({label})
 ```
 Label is a service label like `(myFileName__lt__14)`.
