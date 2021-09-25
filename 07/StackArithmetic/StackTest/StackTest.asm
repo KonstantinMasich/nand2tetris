@@ -23,12 +23,12 @@
             D=M
             A=A-1
             D=M-D
-            M=-1
+            M=0
             @StackTest__eq__0
-                    D;JEQ
+                    D;JNE
             @SP
             A=M-1
-            M=0 
+            M=-1 
         (StackTest__eq__0)
 // push constant 17
             @17
@@ -50,12 +50,12 @@
             D=M
             A=A-1
             D=M-D
-            M=-1
+            M=0
             @StackTest__eq__1
-                    D;JEQ
+                    D;JNE
             @SP
             A=M-1
-            M=0 
+            M=-1 
         (StackTest__eq__1)
 // push constant 16
             @16
@@ -77,12 +77,12 @@
             D=M
             A=A-1
             D=M-D
-            M=-1
+            M=0
             @StackTest__eq__2
-                    D;JEQ
+                    D;JNE
             @SP
             A=M-1
-            M=0 
+            M=-1 
         (StackTest__eq__2)
 // push constant 892
             @892
@@ -104,12 +104,12 @@
             D=M
             A=A-1
             D=M-D
-            M=-1
+            M=0
             @StackTest__lt__3
-                    D;JLT
+                    D;JGE
             @SP
             A=M-1
-            M=0 
+            M=-1 
         (StackTest__lt__3)
 // push constant 891
             @891
@@ -131,12 +131,12 @@
             D=M
             A=A-1
             D=M-D
-            M=-1
+            M=0
             @StackTest__lt__4
-                    D;JLT
+                    D;JGE
             @SP
             A=M-1
-            M=0 
+            M=-1 
         (StackTest__lt__4)
 // push constant 891
             @891
@@ -158,12 +158,12 @@
             D=M
             A=A-1
             D=M-D
-            M=-1
+            M=0
             @StackTest__lt__5
-                    D;JLT
+                    D;JGE
             @SP
             A=M-1
-            M=0 
+            M=-1 
         (StackTest__lt__5)
 // push constant 32767
             @32767
@@ -185,12 +185,12 @@
             D=M
             A=A-1
             D=M-D
-            M=-1
+            M=0
             @StackTest__gt__6
-                    D;JGT
+                    D;JLE
             @SP
             A=M-1
-            M=0 
+            M=-1 
         (StackTest__gt__6)
 // push constant 32766
             @32766
@@ -212,12 +212,12 @@
             D=M
             A=A-1
             D=M-D
-            M=-1
+            M=0
             @StackTest__gt__7
-                    D;JGT
+                    D;JLE
             @SP
             A=M-1
-            M=0 
+            M=-1 
         (StackTest__gt__7)
 // push constant 32766
             @32766
@@ -239,12 +239,12 @@
             D=M
             A=A-1
             D=M-D
-            M=-1
+            M=0
             @StackTest__gt__8
-                    D;JGT
+                    D;JLE
             @SP
             A=M-1
-            M=0 
+            M=-1 
         (StackTest__gt__8)
 // push constant 57
             @57

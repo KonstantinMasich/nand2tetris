@@ -72,19 +72,28 @@ Binary operators, where `op` ∈ {+, -, &, |}:
     M=M{op}D  // stack[last - 1] = stack[last - 1] {op} stack [last]
 ```
 
-Relational operators, where `op` ∈ {JEQ, JGT, JLT}:
+Relational operators, where `op` ∈ {JNE, JGE, JLE} (here these operators are inverted relatively to tested conditions, i.e. when we test for equality, we use `JNE`, and when we test for `>`, we use JLE - "jump if less or equal"). The reason is explained below.
 ```
     @SP
     AM=M-1    // SP--, A = address of stack[last]
     D=M       // D = stack[last]
     A=A-1     // A = address of stack[last - 1]
     D=M-D     // D = diff between stack[last - 1] and stack[last]
-    M=-1      // stack[last] = True; We ASSUME that tested condition is True
+    M=0       // stack[last] = False; We ASSUME that tested condition is False
     @{label}
-            D;{op} // If it's indeed True - then jump to the end 
+            D;{op} // If it's indeed False - then jump to the end 
     @SP       // And if it's False - set it as False
     A=M-1
     M=0       // stack[last] = False
     ({label})
 ```
-Label is a service label like `(myFileName__lt__14)`. Note that we assume that tested condition is `True`, and jump to the end in this case.
+Label is a service label like `(myFileName__lt__14)`.
+
+Note that we assume that tested condition is `False`, and jump to the end in this case; otherwise we set it to `True` first. 
+
+This assumption allows for less branching and cleaner code. It is a bit counterintuitive that we use inverted jump conditions, i.e. we test for `>` but we jump only if `<=` - i.e. the opposite - holds. Why is that? Because we want to assume `False`, i.e. assume that tested condition does *not* hold, actually.
+
+We could make a different assumption, i.e. that the tested condition does hold; then we could use the same jump condition as the tested condition, i.e. `JGT` for testing `>`. This is a valid course of action. However, it appears more efficient to assume `False`.
+Comparisons are often used in loops, where most of the time they will yield False. For example, in a loop like `for i from 0 to 100` comparison `i == 100?` will yield False for 99 evaluations, and will yield True only once. Likewise, tests like `element x is in set X?` would yield `False` for every element that is not `x`, and would yield `True` only once - for `x`.
+
+Thus assuming `False`, i.e. assuming that the tested condition does *not* hold, should speed up program execution significantly in most cases.

@@ -118,19 +118,19 @@ ARITHMETIC_OPS = {
             M=M{op}D\n"""
     },
     'eq': {
-        'op': 'JEQ',
+        'op': 'JNE',
         'template': """// {opname}
             @SP
             AM=M-1
             D=M
             A=A-1
             D=M-D
-            M=-1
+            M=0
             @{label}
                     D;{op}
             @SP
             A=M-1
-            M=0 
+            M=-1 
         ({label})\n"""
     }
 }
@@ -139,8 +139,10 @@ ARITHMETIC_OPS['not'] = {'op': '!', 'template': ARITHMETIC_OPS['neg']['template'
 # Binary operators - add "sub", "and", "or" with the same template as "add":
 for opname, op in zip(['sub', 'and', 'or'], ['-', '&', '|']):
     ARITHMETIC_OPS[opname] = {'op': op, 'template': ARITHMETIC_OPS['add']['template']}
-# Relation operators - add "gt", "lt", with the same template as "eq":
-for opname, op in zip(['gt', 'lt'], ['JGT', 'JLT']):
+# Relation operators - add "gt", "lt", with the same template as "eq".
+# IMPORTANT: note that for relational operators their assembly actions (JNE, JLE, JGE) are
+#            inverted. That is done for optimisation - read the documentation (README.md)
+for opname, op in zip(['gt', 'lt'], ['JLE', 'JGE']):
     ARITHMETIC_OPS[opname] = {'op': op, 'template': ARITHMETIC_OPS['eq']['template']}
 
 # ════════════════════════════════════════════════════════════════════════════════════════════════ #
