@@ -161,7 +161,7 @@
             AM=M-1
             D=M
             A=A-1
-            M=M{'op': '-', 'template': '// {opname}\n            @SP\n            AM=M-1\n            D=M\n            A=A-1\n            M=M{op}D\n'}D
+            M=M+D
 // push ARG 1
             @1
             D=A
@@ -177,7 +177,7 @@
             AM=M-1
             D=M
             A=A-1
-            M=M{'op': '-', 'template': '// {opname}\n            @SP\n            AM=M-1\n            D=M\n            A=A-1\n            M=M{op}D\n'}D
+            M=M-D
 // push THIS 6
             @6
             D=A
@@ -203,13 +203,13 @@
             AM=M-1
             D=M
             A=A-1
-            M=M{'op': '-', 'template': '// {opname}\n            @SP\n            AM=M-1\n            D=M\n            A=A-1\n            M=M{op}D\n'}D
+            M=M+D
 // sub
             @SP
             AM=M-1
             D=M
             A=A-1
-            M=M{'op': '-', 'template': '// {opname}\n            @SP\n            AM=M-1\n            D=M\n            A=A-1\n            M=M{op}D\n'}D
+            M=M-D
 // push temp 6
             @11
             D=M
@@ -222,7 +222,7 @@
             AM=M-1
             D=M
             A=A-1
-            M=M{'op': '-', 'template': '// {opname}\n            @SP\n            AM=M-1\n            D=M\n            A=A-1\n            M=M{op}D\n'}D
+            M=M+D
 
 
     (INFINITE__END__LOOP)

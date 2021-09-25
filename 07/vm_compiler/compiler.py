@@ -35,7 +35,7 @@ class Compiler:
 
     def translate_arithmetic(self, cmd: str) -> str:
         """Returns a translated .vm line for arithmetic commands - add, sub, etc."""
-        kwargs = {'opname': cmd, 'op': ARITHMETIC_OPS[cmd]}
+        kwargs = {'opname': cmd, 'op': ARITHMETIC_OPS[cmd]['op']}
         if cmd in ['eq', 'gt', 'lt']:
             kwargs['label'] = LBL_IF_ELSE.format(fname=self.fname, cmd=cmd, mark=self.service_mark)
             self.service_mark += 1

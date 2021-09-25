@@ -122,7 +122,7 @@ ARITHMETIC_OPS = {
             M={op}M\n"""
     },
     'add': {
-        'op': '-',
+        'op': '+',
         'template': """// {opname}
             @SP
             AM=M-1
