@@ -94,6 +94,6 @@ Note that we assume that tested condition is `False`, and jump to the end in thi
 This assumption allows for less branching and cleaner code. It is a bit counterintuitive that we use inverted jump conditions, i.e. we test for `>` but we jump only if `<=` - i.e. the opposite - holds. Why is that? Because we want to assume `False`, i.e. assume that tested condition does *not* hold, actually.
 
 We could make a different assumption, i.e. that the tested condition does hold; then we could use the same jump condition as the tested condition, i.e. `JGT` for testing `>`. This is a valid course of action. However, it appears more efficient to assume `False`.
-Comparisons are often used in loops, where most of the time they will yield False. For example, in a loop like `for i from 0 to 100` comparison `i == 100?` will yield False for 99 evaluations, and will yield True only once. Likewise, tests like `element x is in set X?` would yield `False` for every element that is not `x`, and would yield `True` only once - for `x`.
+Comparisons are often used in loops, where most of the time they will yield False. For example, in a loop like `for i from 0 to 100` comparison `i == 100?` will yield False for 100 evaluations (for `i` up to 99), and will yield True only once - for `i = 100`. Likewise, tests like `element x is in set X?` would yield `False` for every element that is not `x`, and would yield `True` only once - for `x`.
 
 Thus assuming `False`, i.e. assuming that the tested condition does *not* hold, should speed up program execution significantly in most cases.
