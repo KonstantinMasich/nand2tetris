@@ -1,8 +1,8 @@
 ## Implementation details
 
-**Note 1**: this implementation of VM compiler is different from the one proposed in the course, to be shorter and faster to write. Though main idea is the same, of course.
+**Note**: this implementation of VM compiler is different from the one proposed in the course, to be shorter and faster to write. Though main idea is the same, of course.
 
-* `main.py` compiles everything in MemoryAccess and StackArithmetic folders.
+* `main.py` compiles everything in ProgramFlow and FunctionFlow folders.
 * `compiler.py` holds a Compiler, which gets a single .vm file as an input and returns a string (not a file!) of assembly commands.
 * `config.py` holds various constants and templates for formatting.
 
