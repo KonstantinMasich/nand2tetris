@@ -15,12 +15,13 @@ When used with `debug=True` setting, Compiler adds a special instruction `@11111
 Assembly code is optimised whenever it's possible - to be short. This is crucial because it's a bottleneck: if a VM instruction is translated into 10 assembly commands instead of optimal solution with, for example, 5 commands, then it will run 2x times slower than optimum - 10 clock cycles instead of 5. 
 
 
-### Service marks
+### Service marks, labels and call IDs
 * Internal labels that serve commands like `eq`, `gt`, `lt`, are constructed using an incrementing service marks, like `Main__eq__3` or `Math__gt__118`.
 This is to distinguish between them: we cannot give the same label to all conditional checks, for obvious reasons. Generally just a service mark would
 suffice here, but we may add a file name and comparison name for clarity.
 * Labels declared with commands `label` are created as `Main.foo$LABEL`
-* 
+* A function declaration is universal, i.e. each function is declared only once, as `LinkedList.addNode`
+* However, a *call* to function is unique, i.e. each call should get its unique mark to return to; otherwise, all calls to a given function would return to the same place and resume execution from the same line of code, which is clearly wrong. For that, we use the `cid` variable (**c**all **id**) to distinguish between calls to the same function from completely different places in the code. We also use a file name, because a function can be called not only from different places in the same file, but from different files as well.
 
 
 ### Branching control
