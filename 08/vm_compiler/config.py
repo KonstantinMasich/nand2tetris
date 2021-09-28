@@ -100,34 +100,17 @@ TMPL_PUSHPOP['local'] = TMPL_PUSHPOP['this'] = TMPL_PUSHPOP['that'] = TMPL_PUSHP
 # Templates for arithmetic binary (+, -, &, !), unary (!, -) and comparison (==, >, <) operations.
 # They are similar in nature, so all we really have to do is to place the necessary operation
 # symbol into the template - and that's it!
-TMPL_UNARY = """// {opname}
-@SP
-A=M-1
-M={op}M\n"""
-TMPL_BINARY = """// {opname}
-"""
-
-
-ARITHMETIC_OPS = {
-    'neg': {
-        'op': '-',
-        'template': """// {opname}
+TMPL_OP_UNARY = """// {opname}
             @SP
             A=M-1
             M={op}M\n"""
-    },
-    'add': {
-        'op': '+',
-        'template': """// {opname}
+TMPL_OP_BINARY = """// {opname}
             @SP
             AM=M-1
             D=M
             A=A-1
             M=M{op}D\n"""
-    },
-    'eq': {
-        'op': 'JNE',
-        'template': """// {opname}
+TMPL_OP_COMP = """// {opname}
             @SP
             AM=M-1
             D=M
@@ -140,18 +123,20 @@ ARITHMETIC_OPS = {
             A=M-1
             M=-1 
         ({label})\n"""
-    }
+ARITHMETIC_OPS = {
+    'neg': {'op': '-',   'template':  TMPL_OP_UNARY},
+    'not': {'op': '!',   'template':  TMPL_OP_UNARY},
+    'add': {'op': '+',   'template': TMPL_OP_BINARY},
+    'sub': {'op': '-',   'template': TMPL_OP_BINARY},
+    'and': {'op': '&',   'template': TMPL_OP_BINARY},
+    'or' : {'op': '|',   'template': TMPL_OP_BINARY},
+    'eq' : {'op': 'JNE', 'template':   TMPL_OP_COMP},
+    'lt' : {'op': 'JGE', 'template':   TMPL_OP_COMP},
+    'gt' : {'op': 'JLE', 'template':   TMPL_OP_COMP},
 }
-# Unary operators - add "not" with the same template as "neg":
-ARITHMETIC_OPS['not'] = {'op': '!', 'template': ARITHMETIC_OPS['neg']['template']}
-# Binary operators - add "sub", "and", "or" with the same template as "add":
-for opname, op in zip(['sub', 'and', 'or'], ['-', '&', '|']):
-    ARITHMETIC_OPS[opname] = {'op': op, 'template': ARITHMETIC_OPS['add']['template']}
-# Relation operators - add "gt", "lt", with the same template as "eq".
 # IMPORTANT: note that for relational operators their assembly actions (JNE, JLE, JGE) are
-#            inverted. That is done for optimisation - read the documentation (README.md)
-for opname, op in zip(['gt', 'lt'], ['JLE', 'JGE']):
-    ARITHMETIC_OPS[opname] = {'op': op, 'template': ARITHMETIC_OPS['eq']['template']}
+#            inverted, i.e. equality comparison "=" is implemented using JNE - jump
+#            if NOT equal. That is done for optimisation - read the documentation (README.md)
 
 
 # ════════════════════════════════════════════════════════════════════════════════════════════════ #

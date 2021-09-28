@@ -7,11 +7,11 @@
             @SP
             M=D
             // call Sys.init 0
-            @Sys_ret_addr__MAIN// 1. Push return address
-            D=A                     //
-            @SP                     //
-            A=M	                    //
-            M=D                     //
+            @Sys_ret_addr__MAIN// 1. Push return address. Note that SP is not incremented
+            D=A                     //    in this push. Instead it will get incremented after
+            @SP                     //    this command - from step 2 onwards. 
+            A=M	                    //    This is done for optimisation reasons (this way less
+            M=D                     //    assembly instructions are used).
             @LCL                    // 2. Push LCL
             D=M                     //
             @SP                     //
@@ -36,8 +36,8 @@
             D=A                     //
             @5                      //
             D=A+D                   //
-            @SP                     //
-            M=M+1                   //
+            @SP                     // 
+            M=M+1                   // <-- Here's that delayed SP increment.
             D=M-D                   //
             @ARG                    //
             M=D                     //
@@ -85,11 +85,11 @@
             @4
             M=D
 // call Sys.main 0
-            @Sys_ret_addr__1// 1. Push return address
-            D=A                     //
-            @SP                     //
-            A=M	                    //
-            M=D                     //
+            @Sys_ret_addr__1// 1. Push return address. Note that SP is not incremented
+            D=A                     //    in this push. Instead it will get incremented after
+            @SP                     //    this command - from step 2 onwards. 
+            A=M	                    //    This is done for optimisation reasons (this way less
+            M=D                     //    assembly instructions are used).
             @LCL                    // 2. Push LCL
             D=M                     //
             @SP                     //
@@ -114,8 +114,8 @@
             D=A                     //
             @5                      //
             D=A+D                   //
-            @SP                     //
-            M=M+1                   //
+            @SP                     // 
+            M=M+1                   // <-- Here's that delayed SP increment.
             D=M-D                   //
             @ARG                    //
             M=D                     //
@@ -250,11 +250,11 @@
             A=M-1
             M=D
 // call Sys.add12 1
-            @Sys_ret_addr__2// 1. Push return address
-            D=A                     //
-            @SP                     //
-            A=M	                    //
-            M=D                     //
+            @Sys_ret_addr__2// 1. Push return address. Note that SP is not incremented
+            D=A                     //    in this push. Instead it will get incremented after
+            @SP                     //    this command - from step 2 onwards. 
+            A=M	                    //    This is done for optimisation reasons (this way less
+            M=D                     //    assembly instructions are used).
             @LCL                    // 2. Push LCL
             D=M                     //
             @SP                     //
@@ -279,8 +279,8 @@
             D=A                     //
             @5                      //
             D=A+D                   //
-            @SP                     //
-            M=M+1                   //
+            @SP                     // 
+            M=M+1                   // <-- Here's that delayed SP increment.
             D=M-D                   //
             @ARG                    //
             M=D                     //
