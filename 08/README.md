@@ -2,8 +2,6 @@
 
 **Note 1**: this implementation of VM compiler is different from the one proposed in the course, to be shorter and faster to write. Though main idea is the same, of course.
 
-**Note 2**: amount of cycles in test scripts `NestedCall.tst`, `FibonacciElement.tst` and `StaticTest.tst` was lowered, so there won't be such a long waiting time after execution actually completes.
-
 * `main.py` compiles everything in MemoryAccess and StackArithmetic folders.
 * `compiler.py` holds a Compiler, which gets a single .vm file as an input and returns a string (not a file!) of assembly commands.
 * `config.py` holds various constants and templates for formatting.
