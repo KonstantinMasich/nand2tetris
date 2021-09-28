@@ -2,7 +2,6 @@
 // ========================================================== //
 //                   FILE BasicLoop
 // ========================================================== //
-
 // push constant 0
             @0
             D=A
@@ -24,7 +23,7 @@
             A=M
             M=D
 // label LOOP_START
-            (BasicLoop__main__LOOP_START)
+            (Sys.init$LOOP_START)
 // push ARG 0
             @0
             D=A
@@ -114,7 +113,7 @@
             @SP
             AM=M-1
             D=M
-            @BasicLoop__main__LOOP_START
+            @Sys.init$LOOP_START
                 D;JNE
 // push LCL 0
             @0
@@ -128,10 +127,10 @@
             M=D
 
 
-    (INFINITE__END__LOOP)
-        @INFINITE__END__LOOP
-                0;JMP
-
 // ========================================================== //
 //                    END OF FILE BasicLoop
 // ========================================================== //
+
+    (Sys.init$WHILE)
+        @Sys.init$WHILE
+                0;JMP

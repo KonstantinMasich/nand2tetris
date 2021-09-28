@@ -1,110 +1,132 @@
-// ==========  function SimpleFunction.SimpleFunction.test 2 ==========
-(SimpleFunction$SimpleFunction.test)
-@2
-D=A
-@i_DKZBEpYCdBODWFVuuZwcqLiIGPyYqObS
-M=D+1
-(helper_loop_DKZBEpYCdBODWFVuuZwcqLiIGPyYqObS)
-    @i_DKZBEpYCdBODWFVuuZwcqLiIGPyYqObS
-    MD=M-1
-    @helper_loop_end_DKZBEpYCdBODWFVuuZwcqLiIGPyYqObS
-        D;JEQ
-    @SP
-    A=M
-    M=0
-    @SP
-    M=M+1
-    @helper_loop_DKZBEpYCdBODWFVuuZwcqLiIGPyYqObS
-        0;JMP
-(helper_loop_end_DKZBEpYCdBODWFVuuZwcqLiIGPyYqObS)
 
-// === push LCL 0 ===
-@0        // Go to RAM[ LCL[idx] ]
-D=A           // D = 0
-@LCL        //
-A=M+D         //
-D=M           // D = RAM[ LCL[idx] ]
-@SP           // *SP = D
-A=M
-M=D
-@SP           // SP++
-M=M+1
+// ========================================================== //
+//                   FILE SimpleFunction
+// ========================================================== //
+// function SimpleFunction.test 2
+        (SimpleFunction.test)
+            @SP
+            A=M
+			M=0
+			A=A+1
+			M=0
+			A=A+1
 
-// === push LCL 1 ===
-@1        // Go to RAM[ LCL[idx] ]
-D=A           // D = 1
-@LCL        //
-A=M+D         //
-D=M           // D = RAM[ LCL[idx] ]
-@SP           // *SP = D
-A=M
-M=D
-@SP           // SP++
-M=M+1
+            @2
+            D=A
+            @SP
+            M=M+D
+// push LCL 0
+            @0
+            D=A
+            @LCL
+            A=M+D
+            D=M 
+            @SP
+            M=M+1
+            A=M-1
+            M=D
+// push LCL 1
+            @1
+            D=A
+            @LCL
+            A=M+D
+            D=M 
+            @SP
+            M=M+1
+            A=M-1
+            M=D
+// add
+            @SP
+            AM=M-1
+            D=M
+            A=A-1
+            M=M+D
+// not
+            @SP
+            A=M-1
+            M=!M
+// push ARG 0
+            @0
+            D=A
+            @ARG
+            A=M+D
+            D=M 
+            @SP
+            M=M+1
+            A=M-1
+            M=D
+// add
+            @SP
+            AM=M-1
+            D=M
+            A=A-1
+            M=M+D
+// push ARG 1
+            @1
+            D=A
+            @ARG
+            A=M+D
+            D=M 
+            @SP
+            M=M+1
+            A=M-1
+            M=D
+// sub
+            @SP
+            AM=M-1
+            D=M
+            A=A-1
+            M=M-D
+// return
+            @LCL                    // 1. FRAME = LCL
+            D=M                     //
+            @13                     //
+            M=D                     //
+            @5                      // 2. RET = *(FRAME-5)
+            D=D-A                   //
+            A=D                     //
+            D=M                     //
+            @14                     //
+            M=D                     //
+            @SP                     // 3. *ARG = pop()
+            AM=M-1                  //
+            D=M                     //
+            @ARG                    //
+            A=M                     //
+            M=D                     //
+            @ARG                    // 4. SP = ARG + 1
+            D=M+1                   //
+            @SP                     //
+            M=D                     //
+            @13                     // 5. THAT = *(FRAME-1)
+            AM=M-1                  //
+            D=M                     //
+            @THAT                   //
+            M=D                     //
+            @13                     // 6. THIS = *(FRAME-2)
+            AM=M-1                  //
+            D=M                     //
+            @THIS                   //
+            M=D                     //
+            @13                     // 7. ARG = *(FRAME-3)
+            AM=M-1                  //
+            D=M                     //
+            @ARG                    //
+            M=D                     //
+            @13                     // 8. LCL = *(FRAME-4)
+            AM=M-1                  //
+            D=M                     //
+            @LCL                    //
+            M=D                     //
+            @14                     // 9. Goto RET
+            A=M
+                0;JMP
 
-// ==========  add  ==========
-              // Pop the first operand into D:
-@SP
-AM=M-1
-D=M           // D = stack[last]
-              // Get the second operand without actually decrementing the stack:
-@SP           // 
-A=M-1         //
-M=M+D      // add operation
 
-// ==========  not  ==========
-         // Change the stack[last] directly:
-@SP      // *SP = !SP
-A=M-1
-M=!M
+// ========================================================== //
+//                    END OF FILE SimpleFunction
+// ========================================================== //
 
-// === push ARG 0 ===
-@0        // Go to RAM[ ARG[idx] ]
-D=A           // D = 0
-@ARG        //
-A=M+D         //
-D=M           // D = RAM[ ARG[idx] ]
-@SP           // *SP = D
-A=M
-M=D
-@SP           // SP++
-M=M+1
-
-// ==========  add  ==========
-              // Pop the first operand into D:
-@SP
-AM=M-1
-D=M           // D = stack[last]
-              // Get the second operand without actually decrementing the stack:
-@SP           // 
-A=M-1         //
-M=M+D      // add operation
-
-// === push ARG 1 ===
-@1        // Go to RAM[ ARG[idx] ]
-D=A           // D = 1
-@ARG        //
-A=M+D         //
-D=M           // D = RAM[ ARG[idx] ]
-@SP           // *SP = D
-A=M
-M=D
-@SP           // SP++
-M=M+1
-
-// ==========  sub  ==========
-              // Pop the first operand into D:
-@SP
-AM=M-1
-D=M           // D = stack[last]
-              // Get the second operand without actually decrementing the stack:
-@SP           // 
-A=M-1         //
-M=M-D      // sub operation
-
-
-
-// Ending
-(INFINITE_EXIT_LOOP)
-    @INFINITE_EXIT_LOOP
-    0;JMP
+    (Sys.init$WHILE)
+        @Sys.init$WHILE
+                0;JMP

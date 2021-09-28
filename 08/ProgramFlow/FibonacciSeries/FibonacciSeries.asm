@@ -2,7 +2,6 @@
 // ========================================================== //
 //                   FILE FibonacciSeries
 // ========================================================== //
-
 // push ARG 1
             @1
             D=A
@@ -96,7 +95,7 @@
             A=M
             M=D
 // label MAIN_LOOP_START
-            (FibonacciSeries__main__MAIN_LOOP_START)
+            (Sys.init$MAIN_LOOP_START)
 // push ARG 0
             @0
             D=A
@@ -111,13 +110,13 @@
             @SP
             AM=M-1
             D=M
-            @FibonacciSeries__main__COMPUTE_ELEMENT
+            @Sys.init$COMPUTE_ELEMENT
                 D;JNE
 // goto END_PROGRAM
-            @FibonacciSeries__main__END_PROGRAM
+            @Sys.init$END_PROGRAM
                 0;JMP
 // label COMPUTE_ELEMENT
-            (FibonacciSeries__main__COMPUTE_ELEMENT)
+            (Sys.init$COMPUTE_ELEMENT)
 // push THAT 0
             @0
             D=A
@@ -220,16 +219,16 @@
             A=M
             M=D
 // goto MAIN_LOOP_START
-            @FibonacciSeries__main__MAIN_LOOP_START
+            @Sys.init$MAIN_LOOP_START
                 0;JMP
 // label END_PROGRAM
-            (FibonacciSeries__main__END_PROGRAM)
+            (Sys.init$END_PROGRAM)
 
-
-    (INFINITE__END__LOOP)
-        @INFINITE__END__LOOP
-                0;JMP
 
 // ========================================================== //
 //                    END OF FILE FibonacciSeries
 // ========================================================== //
+
+    (Sys.init$WHILE)
+        @Sys.init$WHILE
+                0;JMP
