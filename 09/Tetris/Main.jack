@@ -1,9 +1,26 @@
 /** Hello World program. */
 class Main {
-   function void main() {
-      /* Prints some text using the standard library. */
-      do Output.printString("Hello world!");
-      do Output.println();      // New line
-      return;
-   }
+    function void main() {
+        var Box b;
+        let b = Box.new();
+        do b.show();
+
+
+
+    /*
+        var int a;
+        var Block b;
+        var Const c;
+
+        let c = Const.new();
+        let b = Block.new();
+        do b.draw();
+
+        do Output.printString("Hello Kitty!");
+        do Output.println();
+        do Output.printInt(a);
+   */
+
+        return;
+    }
 }
