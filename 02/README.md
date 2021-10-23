@@ -1,5 +1,5 @@
 
-Init
+Core adder gates are implemented as in the picture below:
 
-![Alt text](../img/adders.png "Title")
+![Adders](../img/adders.png "Adders")
 
