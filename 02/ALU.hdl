@@ -59,12 +59,10 @@ CHIP ALU {
         // 6. Negate result?
         Not16(in = res, out = negRes);
         Mux16(a = res, b = negRes, sel = no, out = out,
-              out[0..7] = lo8, out[8..15] = hi8, out[15] = msb);
+              out[0..7] = lo8, out[8..15] = hi8, out[15] = ng);
         // A. Zero output flag:
         Or8Way(in = lo8, out = k1);
         Or8Way(in = hi8, out = k2);
         Or(a = k1, b = k2, out = notZr);
         Not(in = notZr, out = zr);
-        // B. Negative output flag:
-        And(a = msb, b = true, out = ng);
 }
