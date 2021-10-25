@@ -13,7 +13,7 @@ There are different kinds of flip-flops, not just DFF ("data flip-flop") but als
 
 Implemented like this:
 
-![memchips](../img/basic_memory.png "Memory chips")
+![memchips](../img/03_basic_memory.png "Memory chips")
 
 The rest of the memory chips of higher order are implemented in the similar manner.
 
