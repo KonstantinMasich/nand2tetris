@@ -44,6 +44,12 @@ We see that only bits "b" and "c" are significant, or:
     11     - KBD
 
 That's how the Mux/Dmux logic works here.
+
+Note that this architecture relies on the assumption that
+a load signal will never be on 1 when addressing the keyboard;
+this allows to use DMux instead of DMux 4 way in Step 1.
+There's no sense in setting load to HIGH for keyboard, because
+we never write anything to the Keyboard chip.
 */
 
 
@@ -52,9 +58,10 @@ CHIP Memory {
     OUT out[16];
 
     PARTS:
-        // 1. Determine which part (RAM, Screen) needs to get the "load" signal:
-        DMux4Way(in=load, sel=address[13..14], a=t1, b=t2, c=scrLoad, d=t4);
-        Or(a=t1, b=t2, out=ramLoad);
+        // 1. Determine which part (RAM or Screen) needs to get the load signal:
+        DMux(in=load, sel=address[14], a=ramLoad, b=scrLoad);
+        // DMux4Way(in=load, sel=address[13..14], a=t1, b=t2, c=scrLoad, d=t4);
+        // Or(a=t1, b=t2, out=ramLoad);
         // 2. Form parts:
         RAM16K(in=in, address=address[0..13], load=ramLoad, out=ramOut);
         Screen(in=in, address=address[0..12], load=scrLoad, out=scrOut);

@@ -18,4 +18,5 @@ Rather straightforward:
 
 ![memory](../img/05_memory.png "Memory")
 
-Note that address bits 13 and 14 are telling us all that we need to know about load destination (where to write data to, if write is needed), and where to fetch data from (RAM, Screen or Keyboard chip).
+- Address bits 13 and 14 are telling us all that we need to know about load destination (where to write data to, if write is needed), and where to fetch data from (RAM, Screen or Keyboard chip).
+- Note that this architecture relies on the assumption that a load signal will never be on 1 when addressing the keyboard; this allows to use DMux instead of DMux 4 way in Step 1. There's no sense in setting load to HIGH for keyboard, because we never write anything to the Keyboard chip.
