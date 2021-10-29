@@ -1,3 +1,7 @@
+### Note
+
+Memory units in Nand2Tetris project seem to be *falling-edge triggered*. This means that if we load a value into them during a _tick_ part of the clock cycle, their output does not change; it will change only on a _tock_ part of that clock cycle. 
+
 ## Flip-Flops
 
 A nice DIY tryout with latches and flip-flops:
