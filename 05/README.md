@@ -23,6 +23,7 @@ Implemented as follows:
 - Hack CPU is described as a device that uses the "fetch - execute" sequence, whereas other CPUs have the explicit "decode" phase: "fetch - decode - execute", where the decoding phase is the phase when control unit sets up all the necessary control bits - like CPU control bits, registers load bits, memory load bit, etc. - before execution of the instruction itself. Control unit "sets things up", i.e. prepares registers and ALU; only after that does the actual instruction get executed.
 - Modern CPUs use advanced techniques to boost their performance and eliminate bottlenecks - like memory caching, instruction pipelining, out-of-order execution, etc.
 - In modern CPUs, all memory modules (like several RAM chips, each with 2GB, totalling in 8GB RAM) are usually sitting on the same data bus and address bus. In this case, each chip "knows" that it's the one that is addressed by getting a signal - RD, WR or CS ("chip select", the so-called third state, or disconnected state, or high impedance state, or hi-Z state) via control bus. Decoder (with some simple inverter logic) sends appropriate signals - read, write, or chip_select - to appropriate RAM chip.
+
 A bit more detailed scheme:
 
 ![computerdetailed](../img/05_computer_details.png "Computer_detailed")
