@@ -7,7 +7,7 @@ Rather straightforward:
 - Address bits 13 and 14 are telling us all that we need to know about load destination (where to write data to, if write is needed), and where to fetch data from (RAM, Screen or Keyboard chip).
 - Note that this architecture relies on the assumption that a load signal will never be on 1 when addressing the keyboard; this allows to use DMux instead of DMux 4 way in Step 1. There's no sense in setting load to HIGH for keyboard, because we never write anything to the Keyboard chip. Thus, even when bits 13 and 14 are HIGH (meaning that we address the Keyboard chip and not Screen!), Screen module will still get load = 0 and its data won't be changed, because load is set to LOW when we address keyboard (that's our assumption).
 
-
+&nbsp;&nbsp;&nbsp;
 ## Computer
 
 Implemented as follows:
@@ -26,18 +26,20 @@ Implemented as follows:
 
 A bit more detailed scheme:
 
-![computerdetailed](../img/05_computer_details.png "Computer_detailed")
+![computerdetailes](../img/05_computer_details.png "Computer_detailes")
 
-
+&nbsp;&nbsp;&nbsp;
 ##  CPU
 
 This is the most complicated component - both to build and to understand how it works. The "one-cycle two-memory" model is a bit tricky to grasp at first. The general scheme is:
 
-xxx
+![cpu](../img/05_cpu.png "CPU")
 
 And the more detailed scheme is:
 
-xxx
+![cpudetailed](../img/05_cpu_details.png "CPU_details")
+
+**Important**. Generally all wires in CPU should be turned off after command execution (i.e. after "execute" phase of fetch-decode-execute cycle) so that the value calculated by ALU doesn't ripple back to registers and to ALU and gets recalculated again, and again, and again. So wires are turned off, and lastly PC increments, thus concluding execution process of a given instruction. I'm not sure whether this is modelled in Hack CPU though.
 
 ### Control Unit
 
@@ -51,11 +53,11 @@ Here I try to describe, more or less, how Hack CPU works. Note that I divided th
 
 If you find a mistake here, please don't hesitate to let me know.
 
-*INITIALIZATION*
+**INITIALIZATION**
 1. User presses and releases the Reset button.
 2. PC gets resetted. This means that all volatile memory (energy-dependent memory) is set to 0; CPU registers - A and D - are set to 0; program counter (PC) is set to 0; ALU inputs are resetted, and _zr_ flag raises (because ALU outputs 0). PC chip sets bits 000 0000 0000 0000 (15 zeroes) on the address bus. Initialization complete.
 
-*LOOP*
+**LOOP**
 1. ROM component receives bits that were set on address bus, then retrieves the instruction stored in the memory cell corresponding to requested address, and sets the instruction bits on control bus.
 2. RAM receives bits on address bus as well, and it sets the bits from cell RAM[address] on data bus.
 3. Instruction is being "parsed". Instruction bits are taken from control bus and directed into Control Unit, which uses those bits to configure CPU components to work in the requested state. ALU, registers, gates, PC are now configured to perform the required computation. 
@@ -64,9 +66,4 @@ If you find a mistake here, please don't hesitate to let me know.
 6. GOTO 1. Program counter now emits a value that was either taken from address register (if jump conditions were met) or is the old value incremented by +1. PC's output bits are set on address bus, from where they are retrieved by ROM chip - that's Step 1. The loop repeats.
 
 This is basically an infinite loop, that is interrupted only by pressing the Reset button.
-
-### Notes
-
-- Hack computer is a single-cycle, two-memory machine, which means that both fetching, decoding and execution of each instruction happens within the same clock cycle. This requires two separate memory chips - in this case they are RAM and ROM.
-- However, modern CPUs are mostly "three-cycle, one-memory machines" and in these CPUs fetch takes 1 cycle, decode takes 1 cycle, and then execute takes 1 cycle. That's oversimplified though, as CPUs today use various techniques like instruction pipelining or memory caching, and others, to boost their performance.
 
