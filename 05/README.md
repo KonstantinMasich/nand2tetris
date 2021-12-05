@@ -51,7 +51,9 @@ Upon receiving the instruction, control unit decodes it and configures all the c
 
 Here I try to describe, more or less, how Hack CPU works. Note that I divided the steps in LOOP part "logically", not "physically"; actually those steps happen almost simultaneously, except for writing data into memory elements, which happens on "tock" part of CPU cycle - after everything else already happened. So this is a somewhat "logic" scheme, just for clarity. 
 
-If you find a mistake here, please don't hesitate to let me know.
+Hack CPU is a kind of **RISC** (**R**educed **I**nstruction **S**et **C**omputer) processor, meaning that all three major CPU actions - *fetch, decode, execute* - all happend within just one cycle. Execution of each instruction takes exactly 1 cycle.
+
+*If you find a mistake here, please don't hesitate to let me know.*
 
 **INITIALIZATION**
 1. User presses and releases the Reset button.

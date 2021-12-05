@@ -1,0 +1,9 @@
+let a = 2;
+method void incSize() {
+    if (((y + size) < 254) & ((x + size) < 510) {
+        do erase();
+        let size = size + 2;
+        do draw();
+    }
+    return;
+}
