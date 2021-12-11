@@ -1,10 +1,18 @@
+# ╔═════════════════════╗
+# ║ Python version: 3.9 ║
+# ╚═════════════════════╝
 import lexer
-from parser import *
+from parser import Parser
 
-with open('../test/jack_src_code/class_valid.jack', 'r') as f:
+# FNAME = '../test/jack_src_code/class_valid.jack'
+FNAME = '../test/jack_src_code/simple.jack'
+# FNAME = '../test/provided_files/Main.jack'
+
+with open(FNAME, 'r') as f:
     code   = ''.join(f.readlines())
     tokens = lexer.tokenize(code)
     print(tokens)
     lexer.to_xml('filename.xml', tokens)
-    parse(tokens)
-
+    # Parse:
+    p = Parser(tokens, 'check.xml')
+    p.parse()

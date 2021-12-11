@@ -1,1 +1,10 @@
-let a = 1;
+
+class A {
+    field  a;
+    function String foo() {
+        var int x;
+        let x = 2;
+
+        return;
+    }
+}

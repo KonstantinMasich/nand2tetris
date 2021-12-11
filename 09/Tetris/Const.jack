@@ -1,8 +1,0 @@
-class Const {
-    field int SPEED;
-
-    constructor Const new() {
-        let SPEED = 14;
-        return this;
-    }
-}
