@@ -1,27 +1,27 @@
 
 CONFIG__PARSE_TERM = {
-    '14': '<class><term><integerConstant> 14 </integerConstant></term></class>',
-    '"Hello world"': '<class><term><stringConstant> Hello world </stringConstant></term></class>',
+    '14'  : '<class><term><integerConstant> 14 </integerConstant></term></class>',
     'true': '<class><term><keyword> true </keyword></term></class>',
     'null': '<class><term><keyword> null </keyword></term></class>',
     'this': '<class><term><keyword> this </keyword></term></class>',
-    '(2 + 2)': """ <class>
+    '"Hello world"': '<class><term><stringConstant> Hello world </stringConstant></term></class>',
+    '(2 + 2)': """<class>
         <term>
             <symbol> ( </symbol>
             <expression>
-                  <term>
+                <term>
                     <integerConstant> 2 </integerConstant>
-                  </term>
-                  <symbol> + </symbol>
-                  <term>
+                </term>
+                <symbol> + </symbol>
+                <term>
                     <integerConstant> 2 </integerConstant>
-                  </term> 
-            </expression> 
+                </term>
+            </expression>
             <symbol> ) </symbol>
-        </term> 
+        </term>
         </class> """,
-    'a[14 + 2]': """ <class>
-        <term> 
+    'a[14 + 2]': """<class>
+        <term>
             <identifier> a </identifier>
             <symbol> [ </symbol>
             <expression>
@@ -30,63 +30,67 @@ CONFIG__PARSE_TERM = {
                 </term>
                 <symbol> + </symbol>
                 <term>
-                <integerConstant> 2 </integerConstant>
+                    <integerConstant> 2 </integerConstant>
                 </term>
             </expression>
             <symbol> ] </symbol>
         </term>
-        </class>
-        """,
+        </class>""",
     'a[i]': """<class> 
-            <term>
-                <identifier> a </identifier>
-                <symbol> [ </symbol>
-                <expression>
-                    <term>
-                        <identifier> i </identifier>
-                    </term>
-                </expression>
-                <symbol> ] </symbol>
-            </term>
+        <term>
+            <identifier> a </identifier>
+            <symbol> [ </symbol>
+            <expression>
+                <term>
+                    <identifier> i </identifier>
+                </term>
+            </expression>
+            <symbol> ] </symbol>
+        </term>
         </class> """
 }
 
 CONFIG__PARSE_EXPRESSION = {
-    'key = 0': """
-        <class>
-            <expression> 
-                <term> <identifier> key </identifier> </term>
-                <symbol> = </symbol>
-                <term> <integerConstant> 0 </integerConstant> </term>
-            </expression>
-        </class> """,
-    '~(key = 0)': """
-        <class> <expression>
-          <term>
-            <symbol> ~ </symbol>
+    'key = 0': """ <class>
+        <expression>
             <term>
-              <symbol> ( </symbol>
-              <expression>
+                <identifier> key </identifier>
+            </term>
+            <symbol> = </symbol>
+            <term>
+                <integerConstant> 0 </integerConstant>
+            </term>
+        </expression>
+        </class> """,
+    '~(key = 0)': """<class> 
+        <expression>
+            <term>
+                <symbol> ~ </symbol>
                 <term>
-                  <identifier> key </identifier>
+                    <symbol> ( </symbol>
+                    <expression>
+                        <term>
+                            <identifier> key </identifier>
+                        </term>
+                        <symbol> = </symbol>
+                        <term>
+                            <integerConstant> 0 </integerConstant>
+                        </term>
+                    </expression>
+                    <symbol> ) </symbol>
                 </term>
-                <symbol> = </symbol>
-                <term>
-                  <integerConstant> 0 </integerConstant>
-                </term>
-              </expression>
-              <symbol> ) </symbol>
-              </term>
-          </term>
-        </expression> </class> """,
-    '4': """
-        <class> <expression>
+            </term>
+        </expression>
+        </class> """,
+    '4': """<class>
+        <expression>
             <term>
                 <integerConstant> 4 </integerConstant>
             </term>
-        </expression> </class> """,
-    'y + size': """
-        <class> <expression>
+        </expression>
+    </class> """,
+    'y + size': """<class>
+        <expression>
             <term>
                 <identifier> y </identifier>
             </term>
@@ -94,15 +98,15 @@ CONFIG__PARSE_EXPRESSION = {
             <term>
                 <identifier> size </identifier>
             </term>
-        </expression> </class>"""
+        </expression>
+    </class>"""
 }
 
 CONFIG__PARSE_SUBROUTINE_CALL = {
     'foo()': """<class>
         <identifier> foo </identifier>
         <symbol> ( </symbol>
-        <expressionList>
-        </expressionList>
+        <expressionList></expressionList>
         <symbol> ) </symbol>
         </class>""",
     'Screen.setColor(true)': """<class>
@@ -171,15 +175,14 @@ CONFIG__PARSE_SUBROUTINE_CALL = {
                 </term>
             </expression>
         </expressionList>
-        <symbol> ) </symbol>
+        <symbol> ) </symbol> 
         </class>""",
     'game.run()': """<class>
         <identifier> game </identifier>
         <symbol> . </symbol>
         <identifier> run </identifier>
         <symbol> ( </symbol>
-        <expressionList>
-        </expressionList>
+        <expressionList></expressionList>
         <symbol> ) </symbol>
         </class>""",
 }
@@ -195,18 +198,18 @@ CONFIG__PARSE_LET_STATEMENT = {
                     <identifier> i </identifier>
                 </term>
                 <symbol> * </symbol>
-                    <term>
-                        <symbol> ( </symbol>
-                        <expression>
+                <term>
+                    <symbol> ( </symbol>
+                    <expression>
                         <term>
                             <symbol> - </symbol>
-                        <term>
-                            <identifier> j </identifier>
+                            <term>
+                                <identifier> j </identifier>
+                            </term>
                         </term>
-                    </term>
                     </expression>
-            <symbol> ) </symbol>
-            </term>
+                    <symbol> ) </symbol>
+                </term>
             </expression>
             <symbol> ; </symbol>
         </letStatement>
@@ -336,7 +339,7 @@ CONFIG__PARSE_LET_STATEMENT = {
                             </term>
                         </expression>
                     </expressionList>
-                <symbol> ) </symbol>
+                    <symbol> ) </symbol>
                 </term>
             </expression>
             <symbol> ; </symbol>
@@ -348,41 +351,43 @@ CONFIG__PARSE_DO_STATEMENT = {
     'do Output.printInt(sum / length);': """<class>
         <doStatement>
             <keyword> do </keyword>
-                <identifier> Output </identifier>
-                <symbol> . </symbol>
-                <identifier> printInt </identifier>
-                <symbol> ( </symbol>
-                <expressionList>
-                    <expression>
-                        <term>
-                            <identifier> sum </identifier>
-                        </term>
-                        <symbol> / </symbol>
-                        <term>
-                            <identifier> length </identifier>
-                        </term>
-                    </expression>
-                </expressionList>
-                <symbol> ) </symbol>
-                <symbol> ; </symbol>
-            </doStatement>
+            <identifier> Output </identifier>
+            <symbol> . </symbol>
+            <identifier> printInt </identifier>
+            <symbol> ( </symbol>
+            <expressionList>
+                <expression>
+                    <term>
+                        <identifier> sum </identifier>
+                    </term>
+                    <symbol> / </symbol>
+                    <term>
+                        <identifier> length </identifier>
+                    </term>
+                </expression>
+            </expressionList>
+            <symbol> ) </symbol>
+            <symbol> ; </symbol>
+        </doStatement>
         </class>""",
     'do foo();': """<class>
         <doStatement>
             <keyword> do </keyword>
-                <identifier> foo </identifier>
-                <symbol> ( </symbol>
-                <expressionList>
-                </expressionList>
-                <symbol> ) </symbol>
-                <symbol> ; </symbol>
-            </doStatement>
+            <identifier> foo </identifier>
+            <symbol> ( </symbol>
+            <expressionList></expressionList>
+            <symbol> ) </symbol>
+            <symbol> ; </symbol>
+        </doStatement>
         </class>""",
 }
 
 CONFIG__PARSE_RETURN_STATEMENT = {
     'return;': """<class>
-        <returnStatement> <keyword> return </keyword> <symbol> ; </symbol> </returnStatement>
+        <returnStatement>
+        <keyword> return </keyword>
+        <symbol> ; </symbol>
+    </returnStatement>
     </class>""",
     'return x;': """<class>
         <returnStatement>
@@ -436,18 +441,18 @@ CONFIG__PARSE_IF_STATEMENT = {
             </expression>
             <symbol> ) </symbol>
             <symbol> { </symbol>
-                <statements>
-                    <letStatement>
-                        <keyword> let </keyword>
-                        <identifier> s </identifier>
-                        <symbol> = </symbol>
-                        <expression>
-                            <term>
-                                <identifier> i </identifier>
-                            </term>
-                        </expression>
-                        <symbol> ; </symbol>
-                    </letStatement>
+            <statements>
+                <letStatement>
+                    <keyword> let </keyword>
+                    <identifier> s </identifier>
+                    <symbol> = </symbol>
+                    <expression>
+                        <term>
+                            <identifier> i </identifier>
+                        </term>
+                    </expression>
+                    <symbol> ; </symbol>
+                </letStatement>
             </statements>
             <symbol> } </symbol>
             <keyword> else </keyword>
@@ -472,59 +477,58 @@ CONFIG__PARSE_IF_STATEMENT = {
             <symbol> } </symbol>
         </ifStatement>
     </class>""",
-
     'if (((y + size) < 254) & ((x + size) < 510)) { do erase(); }': """<class>
         <ifStatement>
             <keyword> if </keyword>
             <symbol> ( </symbol>
-                <expression>
-                    <term>
-                        <symbol> ( </symbol>
-                        <expression>
-                            <term>
-                                <symbol> ( </symbol>
-                                <expression>
-                                    <term>
-                                        <identifier> y </identifier>
-                                    </term>
-                                    <symbol> + </symbol>
-                                    <term>
-                                        <identifier> size </identifier>
-                                    </term>
-                                </expression>
-                                <symbol> ) </symbol>
-                            </term>
-                            <symbol> &lt; </symbol>
-                            <term>
-                                <integerConstant> 254 </integerConstant>
-                            </term>
-                        </expression>
-                        <symbol> ) </symbol>
-                    </term>
-                    <symbol> &amp; </symbol>
-                    <term>
-                        <symbol> ( </symbol>
+            <expression>
+                <term>
+                    <symbol> ( </symbol>
+                    <expression>
+                        <term>
+                            <symbol> ( </symbol>
                             <expression>
                                 <term>
-                                    <symbol> ( </symbol>
-                                        <expression>
-                                            <term>
-                                                <identifier> x </identifier>
-                                            </term>
-                                            <symbol> + </symbol>
-                                            <term>
-                                                <identifier> size </identifier>
-                                            </term>
-                                        </expression>
-                                    <symbol> ) </symbol>
+                                    <identifier> y </identifier>
                                 </term>
-                                <symbol> &lt; </symbol>
+                                <symbol> + </symbol>
                                 <term>
-                                    <integerConstant> 510 </integerConstant>
+                                    <identifier> size </identifier>
                                 </term>
                             </expression>
-                        <symbol> ) </symbol>
-                    </term>
+                            <symbol> ) </symbol>
+                        </term>
+                        <symbol> &lt; </symbol>
+                        <term>
+                            <integerConstant> 254 </integerConstant>
+                        </term>
+                    </expression>
+                    <symbol> ) </symbol>
+                </term>
+                <symbol> &amp; </symbol>
+                <term>
+                    <symbol> ( </symbol>
+                    <expression>
+                        <term>
+                            <symbol> ( </symbol>
+                            <expression>
+                                <term>
+                                    <identifier> x </identifier>
+                                </term>
+                                <symbol> + </symbol>
+                                <term>
+                                    <identifier> size </identifier>
+                                </term>
+                            </expression>
+                            <symbol> ) </symbol>
+                        </term>
+                        <symbol> &lt; </symbol>
+                        <term>
+                            <integerConstant> 510 </integerConstant>
+                        </term>
+                    </expression>
+                    <symbol> ) </symbol>
+                </term>
             </expression>
             <symbol> ) </symbol>
             <symbol> { </symbol>
@@ -533,20 +537,17 @@ CONFIG__PARSE_IF_STATEMENT = {
                     <keyword> do </keyword>
                     <identifier> erase </identifier>
                     <symbol> ( </symbol>
-                        <expressionList>
-                        </expressionList>
+                    <expressionList></expressionList>
                     <symbol> ) </symbol>
                     <symbol> ; </symbol>
-                    </doStatement>
+                </doStatement>
             </statements>
             <symbol> } </symbol>
-        </ifStatement>
+    </ifStatement>
     </class>"""
 }
 
 CONFIG__PARSE_WHILE_STATEMENT = {
-    # 'while () {}': """<class>
-    # </class>""",
     'while (~(key = 0)) {}': """<class>
         <whileStatement>
             <keyword> while </keyword>
@@ -556,24 +557,210 @@ CONFIG__PARSE_WHILE_STATEMENT = {
                     <symbol> ~ </symbol>
                     <term>
                         <symbol> ( </symbol>
-                            <expression>
-                                <term>
-                                    <identifier> key </identifier>
-                                </term>
-                                <symbol> = </symbol>
-                                <term>
-                                    <integerConstant> 0 </integerConstant>
-                                </term>
-                            </expression>
+                        <expression>
+                            <term>
+                                <identifier> key </identifier>
+                            </term>
+                            <symbol> = </symbol>
+                            <term>
+                                <integerConstant> 0 </integerConstant>
+                            </term>
+                        </expression>
                         <symbol> ) </symbol>
                     </term>
                 </term>
             </expression>
             <symbol> ) </symbol>
             <symbol> { </symbol>
+            <statements></statements>
+            <symbol> } </symbol>
+        </whileStatement>
+    </class>""",
+}
+
+CONFIG__PARSE_VAR_DEC = {
+    'var int i, j;': """<class>
+        <varDec>
+            <keyword> var </keyword>
+            <keyword> int </keyword>
+            <identifier> i </identifier>
+            <symbol> , </symbol>
+            <identifier> j </identifier>
+            <symbol> ; </symbol>
+        </varDec>
+    </class>""",
+    'var boolean exit;': """<class>
+        <varDec>
+            <keyword> var </keyword>
+            <keyword> boolean </keyword>
+            <identifier> exit </identifier>
+            <symbol> ; </symbol>
+        </varDec>
+    </class>""",
+}
+
+CONFIG__PARSE_PARAMETER_LIST = {
+    ')': """<class>
+        <parameterList>
+        </parameterList>
+    </class>""",
+    'int x': """<class>
+        <parameterList>
+            <keyword> int </keyword>
+            <identifier> x </identifier>
+        </parameterList> 
+    </class>""",
+    'int Ax, int Ay, int Asize': """<class>
+        <parameterList>
+            <keyword> int </keyword>
+            <identifier> Ax </identifier>
+            <symbol> , </symbol>
+            <keyword> int </keyword>
+            <identifier> Ay </identifier>
+            <symbol> , </symbol>
+            <keyword> int </keyword>
+            <identifier> Asize </identifier>
+        </parameterList>
+    </class>""",
+}
+
+CONFIG__PARSE_SUBROUTINE_BODY = {
+    '{ var SquareGame game; }' : """<class>
+        <subroutineBody>
+            <symbol> { </symbol>
+            <varDec>
+                <keyword> var </keyword>
+                <identifier> SquareGame </identifier>
+                <identifier> game </identifier>
+                <symbol> ; </symbol>
+            </varDec>
             <statements>
             </statements>
             <symbol> } </symbol>
-        </whileStatement>
+        </subroutineBody>
+    </class>""",
+    '{do Memory.deAlloc(this); return;}': """<class>
+        <subroutineBody>
+        <symbol> { </symbol>
+        <statements>
+            <doStatement>
+                <keyword> do </keyword>
+                <identifier> Memory </identifier>
+                <symbol> . </symbol>
+                <identifier> deAlloc </identifier>
+                <symbol> ( </symbol>
+                <expressionList>
+                    <expression>
+                        <term>
+                            <keyword> this </keyword>
+                        </term>
+                    </expression>
+                </expressionList>
+                <symbol> ) </symbol>
+                <symbol> ; </symbol>
+            </doStatement>
+            <returnStatement>
+                <keyword> return </keyword>
+                <symbol> ; </symbol>
+            </returnStatement>
+        </statements>
+        <symbol> } </symbol>
+        </subroutineBody>
+    </class>""",
+}
+
+CONFIG__PARSE_SUBROUTINE_DEC = {
+    'function int foo() {}' : """<class>
+        <subroutineDec>
+        <keyword> function </keyword>
+        <keyword> int </keyword>
+        <identifier> foo </identifier>
+        <symbol> ( </symbol>
+        <parameterList>
+        </parameterList>
+        <symbol> ) </symbol>
+        <subroutineBody>
+            <symbol> { </symbol>
+            <statements>
+            </statements>
+            <symbol> } </symbol>
+        </subroutineBody>
+    </subroutineDec>
+    </class>""",
+    'constructor Square new (int Ax, int Ay, int Asize) {}' : """<class>
+        <subroutineDec>
+        <keyword> constructor </keyword>
+        <identifier> Square </identifier>
+        <identifier> new </identifier>
+        <symbol> ( </symbol>
+        <parameterList>
+            <keyword> int </keyword>
+            <identifier> Ax </identifier>
+            <symbol> , </symbol>
+            <keyword> int </keyword>
+            <identifier> Ay </identifier>
+            <symbol> , </symbol>
+            <keyword> int </keyword>
+            <identifier> Asize </identifier>
+        </parameterList>
+        <symbol> ) </symbol>
+        <subroutineBody>
+            <symbol> { </symbol>
+            <statements></statements>
+            <symbol> } </symbol>
+        </subroutineBody>
+    </subroutineDec>
+    </class>""",
+}
+
+CONFIG__PARSE_CLASS_VAR_DEC = {
+    'field int size;' : """<class>
+        <classVarDec>
+            <keyword> field </keyword>
+            <keyword> int </keyword>
+            <identifier> size </identifier>
+            <symbol> ; </symbol>
+        </classVarDec>
+    </class>""",
+    'static int x, y, z;': """<class>
+    <classVarDec>
+        <keyword> static </keyword>
+        <keyword> int </keyword>
+        <identifier> x </identifier>
+        <symbol> , </symbol>
+        <identifier> y </identifier>
+        <symbol> , </symbol>
+        <identifier> z </identifier>
+        <symbol> ; </symbol>
+    </classVarDec>
+    </class>""",
+}
+
+CONFIG__PARSE_CLASS = {
+    'class Main {}' : """<class>
+        <keyword> class </keyword>
+        <identifier> Main </identifier>
+        <symbol> { </symbol>
+        <symbol> } </symbol>
+    </class>""",
+    'class Square { field int x, y; field int size; }': """<class>
+        <keyword> class </keyword>
+        <identifier> Square </identifier>
+        <symbol> { </symbol>
+        <classVarDec>
+            <keyword> field </keyword>
+            <keyword> int </keyword>
+            <identifier> x </identifier>
+            <symbol> , </symbol>
+            <identifier> y </identifier>
+            <symbol> ; </symbol>
+        </classVarDec>
+        <classVarDec>
+            <keyword> field </keyword>
+            <keyword> int </keyword>
+            <identifier> size </identifier>
+            <symbol> ; </symbol>
+        </classVarDec>
+        <symbol> } </symbol>
     </class>""",
 }

@@ -1,8 +1,7 @@
 from lxml import etree
 from lexer import tokenize
-import json
 from parser import Parser
-from test_configuration import *
+from test_config import *
 import unittest
 
 
@@ -36,31 +35,31 @@ class ParserTests(unittest.TestCase):
 
     def test_parse_while_statement(self):
         self.__run_tests(CONFIG__PARSE_WHILE_STATEMENT, Parser._parse_while_statement)
+    # -----------------------------------------------------------------------------------
 
     # -----------------------------------------------------------------------------------
-    def test_bar(self):
-        with open('test_config_parser.json') as json_file:
-            data = json.load(json_file)
-            print(data)
+    #                 TEST: VARIABLES AND SUBROUTINES - DECLARATION AND CALL
+    def test_subroutine_dec(self):
+        self.__run_tests(CONFIG__PARSE_SUBROUTINE_DEC, Parser._parse_subroutine_dec)
 
-    def test_foo(self):
-        code   = 'if (((y + size) < 254) & ((x + size) < 510)) { do erase(); }'
-        tokens = tokenize(code)
-        p = Parser(tokens, '')
-        print(tokens)
-        p._parse_subroutine_call(p.root)
-        res = etree.tostring(p.root, pretty_print=True).decode('utf-8')
-        res = Parser.unwrap_tags(res)
-        print(res)
-        self.assertTrue(True)
-        # s = """
-        # <class><identifier>foo</identifier><symbol>(</symbol><expressionList/><symbol>)</symbol></class><>
-        # <term></term>
-        # <term/>
-        # <parametersList></parametersList>
-        # <parametersList/>
-        # """
-        # print(Parser.unwrap_tags(s))
+    def test_parse_subroutine_body(self):
+        self.__run_tests(CONFIG__PARSE_SUBROUTINE_BODY, Parser._parse_subroutine_body)
+
+    def test_parse_parameter_list(self):
+        self.__run_tests(CONFIG__PARSE_PARAMETER_LIST, Parser._parse_parameter_list)
+
+    def test_parse_var_dec(self):
+        self.__run_tests(CONFIG__PARSE_VAR_DEC, Parser._parse_var_dec)
+    # -----------------------------------------------------------------------------------
+
+    # -----------------------------------------------------------------------------------
+    #                 TEST: VARIABLES AND SUBROUTINES - DECLARATION AND CALL
+    def test_parse_class_var_dec(self):
+        self.__run_tests(CONFIG__PARSE_CLASS_VAR_DEC, Parser._parse_class_var_dec)
+
+    def test_parse_class(self):
+        self.__run_tests(CONFIG__PARSE_CLASS, Parser._parse_class)
+    # -----------------------------------------------------------------------------------
 
     # ╔════════════════════════════════════════════════════════════════════════════════════════════╗
     # ║                                         HELPERS                                            ║
@@ -78,8 +77,8 @@ class ParserTests(unittest.TestCase):
         f(parser, node=parser.root)
         # 2. Transform actual and expected strings to the same representation (string with
         #    no newlines and whitespaces):
-        actual   = etree.tostring(parser.root, pretty_print=True).decode('utf-8').replace('\n', '').replace(' ', '')
-        actual   = Parser.unwrap_tags(actual)
+        actual   = etree.tostring(parser.root, pretty_print=True).decode('utf-8').replace(' ', '')
+        actual   = Parser.unwrap_tags(actual).replace('\n', '')
         expected = expected.replace('\n', '').replace(' ', '')
         if verbose:
             print(etree.tostring(parser.root, pretty_print=True).decode('utf-8'))

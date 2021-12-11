@@ -9,8 +9,8 @@ from config import *
 def clean_code(code: str) -> str:
     """Returns cleaned-up code (as one big string) without comments and blank lines."""
     res = re.sub(RE_COMMENT_INLINE, '\n', code)
-    res = re.sub(RE_COMMENT_BLOCK, '', res)
-    return res.replace('\n', '')
+    res = res.replace('\n', '').replace('*/', '*/\n')
+    return re.sub(RE_COMMENT_BLOCK, '', res).replace('\n', '')
 
 
 def get_token_type(token: str):

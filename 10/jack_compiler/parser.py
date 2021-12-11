@@ -7,14 +7,19 @@ from config import *
 
 
 class Parser:
+    """
+    Parser (syntax analyzer).
+
+    Gets input from lexer in the form of [(token, token_type), (token, token_type), ...] and
+    builds parse tree; optionally writes parse tree into XML file.
+   """
 
     def __init__(self, tokens: list, fname: str):
-        self.tokens = tokens                  # A list of pairs [['class': 'keyword'], [_, _], ...]
-        self.n      = len(tokens)             # Total amount of tokens
-        self.i      = 0                       # Current token index
-        self.tree   = etree.ElementTree()     # Parsing tree in the form of XML
-        self.root   = etree.Element('class')  # Root element of parsing tree
-        self.fname  = fname                   # Output filename
+        self.tokens  = tokens                  # A list of pairs [['class': 'keyword'], [_, _],...]
+        self.n       = len(tokens)             # Total amount of tokens
+        self.i       = 0                       # Current token index
+        self.root    = etree.Element('class')  # Root element of parsing tree
+        self.fname   = fname                   # Output filename
         self.__PARSE_STATEMENT_METHODS = {
             'let'   : self._parse_let_statement   ,
             'do'    : self._parse_do_statement    ,
@@ -25,14 +30,16 @@ class Parser:
 
     def parse(self, unwrap_tags: bool = False):
         """Parses the entire file and outputs its structure into the specified file."""
-        # TODO : add unwrapping tags and update description
-        self._parse_class()
+        self._parse_class(self.root)
         if self.fname:
-            self.tree.write('check.xml')
+            xml_str = etree.tostring(self.root, pretty_print=True).decode('utf-8')
+            xml_str = Parser.unwrap_tags(xml_str)
+            with open(self.fname, 'w') as xml_file:
+                xml_file.write(xml_str)
 
     # ----------------------------------------------------------------------------------------------
     #                     Properties (shorthand, for convenience)
-    # current token's (tokens[i]) value and type; and next token's value, i.e. tokens[i+1]
+    # current token's (tokens[i]) value and type; and the next token's value, i.e. tokens[i+1]
     @property
     def curr(self):
         return self.tokens[self.i][0]
@@ -47,59 +54,57 @@ class Parser:
     # ----------------------------------------------------------------------------------------------
 
     # ╔════════════════════════════════════════════════════════════════════════════════════════════╗
-    # ║                          "HIGH" LEVEL COMPILATION METHODS                                  ║
+    # ║                                 CLASS AND CLASS VARS                                       ║
     # ╚════════════════════════════════════════════════════════════════════════════════════════════╝
-    def _parse_class(self):
-        inner_node = self.root
+    def _parse_class(self, node):
+        self.__write_terminals(3, node)                            # Class Main {
+        while self.curr in ('static', 'field'):                    # class fields declarations
+            self._parse_class_var_dec(node)
+        while self.curr in ('constructor', 'function', 'method'):  # functions declarations
+            self._parse_subroutine_dec(node)
+        self.__write_terminals(1, node)                            # {
 
-    # def _compile_class(self):
-    #     self.__write_terminals(3)  # class Main {
-    #     while self.curr in ('static', 'field'):
-    #         self._compile_class_var_dec()
-    #     while self.curr in ('constructor', 'function', 'method'):
-    #         self._compile_subroutine_dec()
-    #     self.__write_terminals(1)  # }
-    #
-    # def _compile_class_var_dec(self):
-    #     inner_node = SubElement(self.root, 'classVarDec')
-    #     n = self.__find_next(';')
-    #     self.__write_terminals(n+1, inner_node)  # expressions ;
-    #
-    # def _compile_subroutine_dec(self):
-    #     node = SubElement(self.root, 'subroutineDec')
-    #     self.__write_terminals(4, node)  # function String foo (
-    #     self._compile_parameter_list(node)
-    #     self.__write_terminals(2, node)  # ) and {
-    #     self._compile_subroutine()
-    #     self.__write_terminals(1, node)  # }
-    #
-    # def _compile_parameter_list(self, node):
-    #     inner_node = SubElement(node, 'parameterList')
-    #     n = self.__find_next(')')
-    #     self.__write_terminals(n, inner_node)
-    #
-    # def _compile_var_dec(self, node):
-    #     inner_node = SubElement(node, 'varDec')
-    #     self.__write_terminals(1, inner_node)  # var
-    #     n = self.__find_next(';')
-    #     self.__write_terminals(n+1, inner_node)  # ;
-    #
-    # def _compile_subroutine(self):
-    #     node = SubElement(self.root, 'subroutineBody')
-    #     while self.curr == 'var':
-    #         self._compile_var_dec(node)
-    #     statements_node = SubElement(node, 'statements')
-    #     while self.curr != '}':
-    #         self._compile_statements(statements_node)
-    #
-    # # ╔════════════════════════════════════════════════════════════════════════════════════════════╗
-    # # ║                         "MIDDLE" LEVEL COMPILATION METHODS                                 ║
-    # # ╚════════════════════════════════════════════════════════════════════════════════════════════╝
-    # def _compile_statements(self, node):
-    #     self.__CMP_METHODS[self.tokens[self.i][0]](node)
+    def _parse_class_var_dec(self, node):
+        inner_node = etree.SubElement(node, 'classVarDec')
+        self.__write_terminals(3, inner_node)      # field int x
+        while self.curr == ',':
+            self.__write_terminals(2, inner_node)  # , y, z
+        self.__write_terminals(1, inner_node)      # ;
+
+    # ╔════════════════════════════════════════════════════════════════════════════════════════════╗
+    # ║                   VARIABLES, PARAMETERS, FUNCTIONS DECLARATIONS AND CALLS                  ║
+    # ╚════════════════════════════════════════════════════════════════════════════════════════════╝
+    def _parse_parameter_list(self, node):
+        inner_node = etree.SubElement(node, 'parameterList')
+        if self.curr != ')':
+            self.__write_terminals(2, inner_node)      # int x
+            while self.curr == ',':
+                self.__write_terminals(3, inner_node)  # , int y, int z
+
+    def _parse_var_dec(self, node):
+        inner_node = etree.SubElement(node, 'varDec')
+        self.__write_terminals(3, inner_node)      # var int x
+        while self.curr == ',':
+            self.__write_terminals(2, inner_node)  # , y, z
+        self.__write_terminals(1, inner_node)      # ;
+
+    def _parse_subroutine_dec(self, node):
+        inner_node = etree.SubElement(node, 'subroutineDec')
+        self.__write_terminals(4, inner_node)    # function int Foo (
+        self._parse_parameter_list(inner_node)   # parameters list
+        self.__write_terminals(1, inner_node)    # )
+        self._parse_subroutine_body(inner_node)  # { subroutine body }
+
+    def _parse_subroutine_body(self, node):
+        inner_node = etree.SubElement(node, 'subroutineBody')
+        self.__write_terminals(1, inner_node)  # {
+        while self.curr == 'var':
+            self._parse_var_dec(inner_node)    # var declarations
+        self._parse_statements(inner_node)     # statements
+        self.__write_terminals(1, inner_node)  # }
 
     def _parse_subroutine_call(self, node):
-        # Parse "foo(" which is 2 terminals, or "Bar.foo(" which is 4 terminals:
+        # Simply parse "foo(" which is 2 terminals, or "Bar.foo(" which is 4 terminals:
         self.__write_terminals(2 if self.next == '(' else 4, node)  # foo( or Bar.foo(
         self._parse_expression_list(node)                           # expressions
         self.__write_terminals(1, node)                             # )
@@ -224,20 +229,5 @@ class Parser:
         explicit form of <term></term>, because that's what nand2tetris works with.
         """
         for tag in re.findall(RE_WRAPPED_TAGS, xml_str):
-            xml_str = xml_str.replace(f'<{tag}/>', f'<{tag}></{tag}>')
+            xml_str = xml_str.replace(f'<{tag}/>', f'<{tag}>\n</{tag}>')
         return xml_str
-
-    # def __find_next(self, key):
-    #     """Returns the amount of symbols one needs to "hop" over in order to get to the key,
-    #     or None."""
-    #     n = 0
-    #     try:
-    #         if isinstance(key, list) or isinstance(key, tuple):
-    #             while self.tokens[self.i + n][0] not in key:
-    #                 n += 1
-    #         else:
-    #             while self.tokens[self.i + n][0] != key:
-    #                 n += 1
-    #         return n
-    #     except IndexError:
-    #         return None
