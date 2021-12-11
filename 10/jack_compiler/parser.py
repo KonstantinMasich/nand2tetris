@@ -216,7 +216,6 @@ class Parser:
         """Writes n terminals into a tree with their tags as they are, and moves
         the current token index by n positions up."""
         for idx in range(self.i, self.i+n):
-            # token, t_type = self.tokens[idx][0], self.tokens[idx][1]
             node = self.root if node is None else node
             etree.SubElement(node, self.curr_type).text = f' {self.curr} '
             if self.i < (len(self.tokens) - 1):
