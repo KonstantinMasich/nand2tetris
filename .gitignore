@@ -3,3 +3,4 @@ schemes/
 additional_stuff/
 __pycache__/
 .pyc
+/10/test/tester.sh

@@ -28,7 +28,7 @@ class Parser:
             'return': self._parse_return_statement
         }
 
-    def parse(self, unwrap_tags: bool = False):
+    def parse(self):
         """Parses the entire file and outputs its structure into the specified file."""
         self._parse_class(self.root)
         if self.fname:
@@ -66,10 +66,10 @@ class Parser:
 
     def _parse_class_var_dec(self, node):
         inner_node = etree.SubElement(node, 'classVarDec')
-        self.__write_terminals(3, inner_node)      # field int x
+        self.__write_terminals(3, inner_node)                      # field int x
         while self.curr == ',':
-            self.__write_terminals(2, inner_node)  # , y, z
-        self.__write_terminals(1, inner_node)      # ;
+            self.__write_terminals(2, inner_node)                  # , y, z
+        self.__write_terminals(1, inner_node)                      # ;
 
     # ╔════════════════════════════════════════════════════════════════════════════════════════════╗
     # ║                   VARIABLES, PARAMETERS, FUNCTIONS DECLARATIONS AND CALLS                  ║
@@ -83,25 +83,25 @@ class Parser:
 
     def _parse_var_dec(self, node):
         inner_node = etree.SubElement(node, 'varDec')
-        self.__write_terminals(3, inner_node)      # var int x
+        self.__write_terminals(3, inner_node)          # var int x
         while self.curr == ',':
-            self.__write_terminals(2, inner_node)  # , y, z
-        self.__write_terminals(1, inner_node)      # ;
+            self.__write_terminals(2, inner_node)      # , y, z
+        self.__write_terminals(1, inner_node)          # ;
 
     def _parse_subroutine_dec(self, node):
         inner_node = etree.SubElement(node, 'subroutineDec')
-        self.__write_terminals(4, inner_node)    # function int Foo (
-        self._parse_parameter_list(inner_node)   # parameters list
-        self.__write_terminals(1, inner_node)    # )
-        self._parse_subroutine_body(inner_node)  # { subroutine body }
+        self.__write_terminals(4, inner_node)          # function int Foo (
+        self._parse_parameter_list(inner_node)         # parameters list
+        self.__write_terminals(1, inner_node)          # )
+        self._parse_subroutine_body(inner_node)        # { subroutine body }
 
     def _parse_subroutine_body(self, node):
         inner_node = etree.SubElement(node, 'subroutineBody')
-        self.__write_terminals(1, inner_node)  # {
+        self.__write_terminals(1, inner_node)          # {
         while self.curr == 'var':
-            self._parse_var_dec(inner_node)    # var declarations
-        self._parse_statements(inner_node)     # statements
-        self.__write_terminals(1, inner_node)  # }
+            self._parse_var_dec(inner_node)            # var declarations
+        self._parse_statements(inner_node)             # statements
+        self.__write_terminals(1, inner_node)          # }
 
     def _parse_subroutine_call(self, node):
         # Simply parse "foo(" which is 2 terminals, or "Bar.foo(" which is 4 terminals:
@@ -119,14 +119,14 @@ class Parser:
 
     def _parse_let_statement(self, node):
         inner_node = etree.SubElement(node, 'letStatement')
-        self.__write_terminals(2, inner_node)      # let varname =
+        self.__write_terminals(2, inner_node)       # let varname =
         if self.curr == '[':
-            self.__write_terminals(1, inner_node)  # [
-            self._parse_expression(inner_node)     # expression
-            self.__write_terminals(1, inner_node)  # ]
-        self.__write_terminals(1, inner_node)      # =
-        self._parse_expression(inner_node)         # 2
-        self.__write_terminals(1, inner_node)      # ;
+            self.__write_terminals(1, inner_node)   # [
+            self._parse_expression(inner_node)      # expression
+            self.__write_terminals(1, inner_node)   # ]
+        self.__write_terminals(1, inner_node)       # =
+        self._parse_expression(inner_node)          # 2
+        self.__write_terminals(1, inner_node)       # ;
 
     def _parse_if_statement(self, node):
         inner_node = etree.SubElement(node, 'ifStatement')
@@ -139,31 +139,30 @@ class Parser:
         self.__write_terminals(1, inner_node)       # }
         if self.curr == 'else':
             self.__write_terminals(2, inner_node)   # else {
-            if self.curr != '}':
-                self._parse_statements(inner_node)  # statements
+            self._parse_statements(inner_node)      # statements
             self.__write_terminals(1, inner_node)   # }
 
     def _parse_while_statement(self, node):
         inner_node = etree.SubElement(node, 'whileStatement')
-        self.__write_terminals(2, inner_node)   # while (
+        self.__write_terminals(2, inner_node)       # while (
         if self.curr != ')':
-            self._parse_expression(inner_node)  # expression
-        self.__write_terminals(2, inner_node)   # ) {
-        self._parse_statements(inner_node)      # statements
-        self.__write_terminals(1, inner_node)   # }
+            self._parse_expression(inner_node)      # expression
+        self.__write_terminals(2, inner_node)       # ) {
+        self._parse_statements(inner_node)          # statements
+        self.__write_terminals(1, inner_node)       # }
 
     def _parse_do_statement(self, node):
         inner_node = etree.SubElement(node, 'doStatement')
-        self.__write_terminals(1, inner_node)    # do
-        self._parse_subroutine_call(inner_node)  # Bar.foo(params)
-        self.__write_terminals(1, inner_node)    # ;
+        self.__write_terminals(1, inner_node)        # do
+        self._parse_subroutine_call(inner_node)      # Bar.foo(params)
+        self.__write_terminals(1, inner_node)        # ;
 
     def _parse_return_statement(self, node):
         inner_node = etree.SubElement(node, 'returnStatement')
-        self.__write_terminals(1, inner_node)    # return
+        self.__write_terminals(1, inner_node)        # return
         if self.curr != ';':
-            self._parse_expression(inner_node)   # expression
-        self.__write_terminals(1, inner_node)    # ;
+            self._parse_expression(inner_node)       # expression
+        self.__write_terminals(1, inner_node)        # ;
 
     # ╔════════════════════════════════════════════════════════════════════════════════════════════╗
     # ║                                TERMS AND EXPRESSIONS                                       ║
@@ -217,9 +216,9 @@ class Parser:
         """Writes n terminals into a tree with their tags as they are, and moves
         the current token index by n positions up."""
         for idx in range(self.i, self.i+n):
-            token, t_type = self.tokens[idx][0], self.tokens[idx][1]
+            # token, t_type = self.tokens[idx][0], self.tokens[idx][1]
             node = self.root if node is None else node
-            etree.SubElement(node, t_type).text = f' {token} '
+            etree.SubElement(node, self.curr_type).text = f' {self.curr} '
             if self.i < (len(self.tokens) - 1):
                 self.i += 1
 

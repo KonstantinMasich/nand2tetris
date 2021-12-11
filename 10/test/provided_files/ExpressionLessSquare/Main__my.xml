@@ -98,6 +98,8 @@
           <symbol> } </symbol>
           <keyword> else </keyword>
           <symbol> { </symbol>
+          <statements>
+</statements>
           <symbol> } </symbol>
         </ifStatement>
         <returnStatement>
