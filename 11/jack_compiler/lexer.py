@@ -2,7 +2,6 @@
 # ║ Python version: 3.9 ║
 # ╚═════════════════════╝
 import re
-
 # Regex:
 RE_WRAPPED_TAGS   = r'<(\w*)\/>'
 RE_COMMENT_BLOCK  = r'\/\*\*.+\*\/'

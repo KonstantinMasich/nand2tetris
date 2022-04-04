@@ -1,6 +1,10 @@
-
+# ╔═════════════════════╗
+# ║ Python version: 3.9 ║
+# ╚═════════════════════╝
 
 class Compiler:
+    """Compilation engine for translating Jack code to VM code."""
+
     T_BINARY_OP = {'+': 'add', '-': 'sub', '*': 'call Math.multiply 2', '/': 'call Math.divide 2',
                    '&': 'and', '|': 'or', '>': 'gt', '<': 'lt', '=': 'eq'}
     T_UNARY_OP  = {'-': 'neg', '~': 'not'}

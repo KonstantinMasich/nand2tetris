@@ -4,16 +4,16 @@ TEST__COMPILE_LET_STATEMENT = {
         'let t2 = 789;': ['push constant 789', 'pop argument 1'],
         'let z  = 234;': ['push constant 234', 'pop local 2'],
         'let z = Math.multiply(7, 4+2);': [
-            'push constant 7',
-            'push constant 4',
-            'push constant 2',
-            'add',
+            'push constant 7'     ,
+            'push constant 4'     ,
+            'push constant 2'     ,
+            'add'                 ,
             'call Math.multiply 2',
             'pop local 2'
         ],
         'let x = Math.multiply(y, M);' : [
-            'push local 1',
-            'push static 1',
+            'push local 1'        ,
+            'push static 1'       ,
             'call Math.multiply 2',
             'pop local 0'
         ],
