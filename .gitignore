@@ -3,4 +3,7 @@ schemes/
 additional_stuff/
 __pycache__/
 .pyc
+/11/jack_compiler/__pycache__/
 /10/test/tester.sh
+/11/test/.pytest_cache/
+/11/backup/

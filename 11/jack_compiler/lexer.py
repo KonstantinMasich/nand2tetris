@@ -1,9 +1,29 @@
 # ╔═════════════════════╗
 # ║ Python version: 3.9 ║
 # ╚═════════════════════╝
-import xml.etree.cElementTree as eTree
 import re
-from config import *
+
+# Regex:
+RE_WRAPPED_TAGS   = r'<(\w*)\/>'
+RE_COMMENT_BLOCK  = r'\/\*\*.+\*\/'
+RE_COMMENT_INLINE = r'\/\/.+\n'
+RE_STR_CONSTANT   = r'(\".+?\")'
+
+# Jack language constants:
+T_SYMBOLS = (
+    '{', '}', '(', ')', '[', ']', '.', ',', ';', '+', '-',
+    '*', '/', '&', '|', '<', '>', '=', '~'
+)
+T_KEYWORDS = (
+    'class', 'constructor', 'function', 'method', 'field',
+    'static', 'var', 'int', 'char', 'boolean', 'void',
+    'true',  'false', 'null', 'this', 'let', 'do', 'if',
+    'else', 'while', 'return'
+)
+T_TYPES = {
+    **{s: 'symbol' for s in T_SYMBOLS},
+    **{kw: 'keyword' for kw in T_KEYWORDS},
+}
 
 
 def clean_code(code: str) -> str:
@@ -36,8 +56,8 @@ def tokenize(code: str) -> list:
     """
     code = clean_code(code)
     # 1. Build strings table and substitute strings by their keys from the table:
-    table = {f'{t[0]}s': t[1] for t in list(enumerate(re.findall(RE_STR_CONSTANT, code)))}
-    for i, s in table.items():
+    str_table = {f'{t[0]}s': t[1] for t in list(enumerate(re.findall(RE_STR_CONSTANT, code)))}
+    for i, s in str_table.items():
         code = code.replace(s, i)
     # 2. Break the code into a list of terminals, removing empty words (i.e. ''):
     for symbol in T_SYMBOLS:
@@ -45,16 +65,5 @@ def tokenize(code: str) -> list:
     tokens = [x for x in code.split(' ') if x]
     # 3. Lastly, assign a type to each terminal and convert string constants back to
     #    their desired representation from their keys in strings table:
-    tokens = [table.get(x, x) for x in tokens]
+    tokens = [str_table.get(x, x) for x in tokens]
     return [[t.replace('"', ''), get_token_type(t)] for t in tokens]
-
-
-def to_xml(fname: str, tokens: list):
-    """Outputs the specified tokens list into an .xml file, for testing purposes."""
-    root = eTree.Element("tokens")
-    for token_tuple in tokens:
-        token, t_type = token_tuple
-        eTree.SubElement(root, t_type).text = f' {token} '
-    tree = eTree.ElementTree(root)
-    eTree.indent(tree, level=0)
-    tree.write(fname)

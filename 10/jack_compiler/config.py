@@ -1,9 +1,6 @@
 
 # Regex:
 RE_WRAPPED_TAGS   = r'<(\w*)\/>'
-# RE_COMMENT_BLOCK  = r'\/\*(.|\n)+\*\/'
-# RE_COMMENT_BLOCK  = r'\/\*\**.+\*\/'
-# RE_COMMENT_BLOCK  = r'\/\*\**.+\*\/'
 RE_COMMENT_BLOCK  = r'\/\*\*.+\*\/'
 RE_COMMENT_INLINE = r'\/\/.+\n'
 RE_STR_CONSTANT   = r'(\".+?\")'
