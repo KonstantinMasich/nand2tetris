@@ -170,9 +170,9 @@ TEST__COMPILE_SUBROUTINE_CALL_BAR = {
 # ╚════════════════════════════════════════════════════════════════════════════════════════════╝
 CONFIG__SYMBOLS_SUBROUTINE = {
     'class': {
-        'a': {'type': 'int'    , 'kind': 'field' , 'i': 0},
-        'b': {'type': 'String' , 'kind': 'field' , 'i': 1},
-        'c': {'type': 'boolean', 'kind': 'field' , 'i': 2},
+        'a': {'type': 'int'    , 'kind': 'this'  , 'i': 0},
+        'b': {'type': 'String' , 'kind': 'this'  , 'i': 1},
+        'c': {'type': 'boolean', 'kind': 'this'  , 'i': 2},
         'G': {'type': 'int'    , 'kind': 'static', 'i': 0},
         'M': {'type': 'int'    , 'kind': 'static', 'i': 1},
     },

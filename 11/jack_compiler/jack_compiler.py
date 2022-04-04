@@ -66,9 +66,10 @@ class Compiler:
     def compile_class_var_dec(self):
         #     V                                      v
         #  static|field field_name      ::      ;   ___
-        classvar_counters = {'static': 0, 'field': 0}
+        classvar_counters = {'static': 0, 'this': 0}
         while self.curr in ('static', 'field'):
-            attr_kind, attr_type = self.curr, self.next
+            attr_kind = self.curr if self.curr != 'field' else 'this'
+            attr_type = self.next
             self.i += 2
             while self.curr != ';':
                 self.symbols['class'][self.curr] = {
@@ -97,8 +98,7 @@ class Compiler:
         # 2. If called subroutine is instance-related, like "car.drive()":
         if (obj_data := self.__var_lookup(obj_name)) is not None:
             full_subroutine_name = f'{obj_data["type"]}.{subroutine_name}'
-            kind = 'this' if obj_data['kind'] == 'field' else obj_data['kind']
-            self.res.append(f'push {kind} {obj_data["i"]}')
+            self.res.append(f'push {obj_data["kind"]} {obj_data["i"]}')
             n_args += 1
         self.i += increment
         n_args += self.compile_expression_list()             # Ends after the last ")"
@@ -135,7 +135,7 @@ class Compiler:
         self.res.append(f'function {self.classname}.{subroutine_name} {lcl_count}')
         # 2. Add special treatment for constructors and methods:
         if subroutine_kind == 'constructor':
-            n_fields = len([x for x in self.symbols['class'].values() if x['kind'] == 'field'])
+            n_fields = len([x for x in self.symbols['class'].values() if x['kind'] == 'this'])
             self.res.extend([f'push constant {n_fields}', 'call Memory.alloc 1', 'pop pointer 0'])
             self.in_constructor = True
         elif subroutine_kind == 'method':
@@ -173,16 +173,15 @@ class Compiler:
         #  let varName      ::      ;   ___
         self.i += 1                                # At varName
         vardata = self.__var_lookup(self.curr)
-        kind    = 'this' if vardata['kind'] == 'field' else vardata['kind']
         if self.next != '[':
             self.i += 2                            # Now at expression after "="
             self.compile_expression()              # Now at ";" of the expression
             self.i += 1                            # Now after ";" of the expression
-            self.res.append(f'pop {kind} {vardata["i"]}')
+            self.res.append(f'pop {vardata["kind"]} {vardata["i"]}')
         else:
             self.i += 2                            # Now at variable name
             self.compile_expression()
-            self.res.extend([f'push {kind} {vardata["i"]}', 'add'])
+            self.res.extend([f'push {vardata["kind"]} {vardata["i"]}', 'add'])
             self.i += 2                            # Now after "=", at expression start
             self.compile_expression()
             self.i += 1
@@ -302,10 +301,9 @@ class Compiler:
                 self.compile_subroutine_call()
             # varName
             else:
-                var_data  = self.__var_lookup(self.curr)
-                kind, idx = var_data['kind'], var_data['i']
-                self.i   += 1
-                self.res.append(f'push {"this" if kind=="field" else kind} {idx}')
+                vardata = self.__var_lookup(self.curr)
+                self.i  += 1
+                self.res.append(f'push {vardata["kind"]} {vardata["i"]}')
         # ( expression )
         elif self.curr == '(':
             self.i += 1
