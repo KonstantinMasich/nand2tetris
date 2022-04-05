@@ -8,6 +8,9 @@
   Parser is implemented in a similar way to what the book proposes.
 * No `main.py` here: everything is done from the tests.
 
+## lex
+There's a set of rules for `lex` in **lex** directory.
+
 ## Compiler
 
 The compiler is based on Parser from the previous chapter (10), but instead of building a parse tree, it outputs VM commands. 
