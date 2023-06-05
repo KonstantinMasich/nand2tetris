@@ -1,0 +1,30 @@
+# ╔════════════════════════════════════╗
+# ║               GENERAL              ║
+# ╚════════════════════════════════════╝
+.vscode/
+original__nand2tetris/
+
+
+# ╔════════════════════════════════════╗
+# ║       NAND2TETRIS SPECIFIC         ║
+# ╚════════════════════════════════════╝
+tools/
+.pytest_cache/
+
+
+# ╔════════════════════════════════════╗
+# ║         BYTECODE / TESTING         ║
+# ╚════════════════════════════════════╝
+__pycache__/
+.pytest_cache/
+*.py[cod]
+*$py.class
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+cover/

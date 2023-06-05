@@ -1,0 +1,22 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Or.hdl
+
+
+/**
+    -----
+    -   -
+    a * b  = a + b  by De Morgan's laws
+    
+    So it's just nand(not_a, not_b)
+*/
+CHIP Or {
+    IN a, b;
+    OUT out;
+
+    PARTS:
+        Not(in = a, out = notA);
+        Not(in = b, out = notB);
+        Nand(a = notA, b = notB, out = out);
+}
