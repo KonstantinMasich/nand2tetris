@@ -1,37 +1,36 @@
 import os
 import pytest
-from p06.code.assembler         import Assembler
-from test_utils.commons         import parametrize, are_identical_files
-from test_utils.test_configs_06 import *
+from p06.code.assembler import Assembler
+from test_utils.commons import parametrize, are_identical_files
+import test_utils.test_configs_06 as test_configs
 
 
-@parametrize(TESTDATA__BUILD_SYMBOL_TABLE)
+@parametrize(test_configs.TESTDATA__BUILD_SYMBOL_TABLE)
 def test_build_symbol_table(asm_fname, expected):
     asm = Assembler()
     asm.compile_file(asm_fname)
     assert expected == asm.symbols
 
 
-@parametrize(TESTDATA__BUILD_A_INSTR)
+@parametrize(test_configs.TESTDATA__BUILD_A_INSTR)
 def test_build_a_instr(cmd, context, expected):
     asm = Assembler()
     asm.symbols.update(context)
     assert expected == asm._build_a_instr(cmd)
 
 
-@parametrize(TESTDATA__BUILD_C_INSTR)
+@parametrize(test_configs.TESTDATA__BUILD_C_INSTR)
 def test_build_c_instr(cmd, expected):
     asm = Assembler()
     assert expected == asm._build_c_instr(cmd)
 
 
-@parametrize(TESTDATA__COMPILE)
+@parametrize(test_configs.TESTDATA__COMPILE)
 def test_compile(asm_fname, expected):
-    # assert expected == list(Assembler(asm_fname, test_mode=True).compile())
     assert expected == list(Assembler().compile_file(asm_fname))
 
 
-@parametrize(TESTDATA__TO_16BIT_BINARY)
+@parametrize(test_configs.TESTDATA__TO_16BIT_BINARY)
 def test_to_16bits_binary__sanity(num, expected):
     assert expected == Assembler.to_16bit_binary(num)
 
@@ -44,7 +43,7 @@ def test_to_16bits_binary__overflow():
             Assembler.to_16bit_binary(n)
 
 
-@parametrize(TESTDATA__GET_CLEAN_INSTRUCTION)
+@parametrize(test_configs.TESTDATA__GET_CLEAN_INSTRUCTION)
 def test_get_clean_instruction(instr, expected):
     assert expected == Assembler._get_clean_instruction(instr)
 

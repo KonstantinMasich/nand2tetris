@@ -1,7 +1,5 @@
 import glob
-from .const import TMPL__POP, TMPL__PUSH, TMPL__FUNCTION_NO_LOCALS, TMPL__FUNCTION_WITH_LOCALS, \
-    TMPL__CALL, TMPL__RETURN, TMPL__BRANCHING, ARITHMETIC_INSTRUCTIONS, SEG_ALIAS, SEG_BASE,    \
-    INIT_TO_ZERO, BOOTSTRAP__CODE, INFINITE_LOOP
+from .const import *
 
 
 # ╔══════════════════════╗
@@ -73,7 +71,7 @@ class VMCompiler:
                     return self._translate_branching(cmd, label)
                 case ['function' | 'call' as cmd, fname_func, args]:
                     return self._translate_func_flow(cmd, fname_func, args)
-                case ['return'] as cmd:
+                case ['return']:
                     return self._translate_func_flow('return')
                 case _:
                     raise ValueError(f'Invalid VM instruction "{instr}"!')
