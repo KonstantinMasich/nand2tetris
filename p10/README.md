@@ -4,7 +4,7 @@ Python version: 3.11
 
 **Note**: this implementation of Jack compiler is different from the one proposed in the course, to be faster to write and easier to read. Though the main idea is the same, of course.<br>
 
-<br><hr><br>
+<br><br>
 
 ## Project structure
 
@@ -18,7 +18,7 @@ This project implements lexer and parser parts of the compiler. It focuses on **
 It also follows the "lexer + parser" pair, like lex + yacc. Similarly, its methods are called `_parse_XXX` instead of `_compile_XXX`, but the essence is the same.
 * `const.py` - holds various constants, regular expressions and templates for formatting.
 
-<br><hr><br>
+<br><br>
 
 ## Language elements
 
@@ -28,7 +28,7 @@ Example: `if`, `[`, `class`, `.`, `,`, `foo`, etc.
 * **Token**: is a string with an assigned and thus identified meaning.<br>
 Example: "identifier", "keyword", "constant", "operator", etc.
 
-<br><hr><br>
+<br><br>
 
 ## Stages of compilation
 
@@ -42,7 +42,7 @@ This is formal analysis by a computer of a sentence or other string of words int
 This stage is not done in this project.
 4. **Target code generation**: code in VM language is generated.
 
-<br><hr><br>
+<br><br>
 
 ## Grammar
 
@@ -50,7 +50,7 @@ Loosely speaking, a programming language's **grammar** is a set of rules that al
 
 In Chomsky hierarchy, there are 4 types of grammars, and in this course we interact with **context-free grammar**. A context-free grammar (CFG) is a formal grammar whose production rules can be applied to a nonterminal symbol *regardless of its context*. This basically means that syntactic elements can be formed from simpler elements.
 
-<br><hr><br>
+<br><br>
 
 ## Statements and expressions
 
@@ -64,7 +64,7 @@ In Jack language statements are:
 * `do` statement
 * `return` statement
 
-<br><hr><br>
+<br><br>
 
 ## Example of a parse tree
 
