@@ -217,7 +217,7 @@ class Parser:
                         self._add_tokens_and_advance(node, 1)  # unary operator
                         node.append(self._parse_term())
                     case _:
-                        raise AttributeError(f'Unexpected token: {token}')
+                        raise ValueError(f'Unexpected token: {token}')
         return node
 
     # ╔════════════════════════════════════════════════════════════════════════════════════════════╗

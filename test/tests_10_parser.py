@@ -8,16 +8,6 @@ import test_utils.test_configs_10__parser_stmt  as stmt_test_configs
 import test_utils.test_configs_10__parser_mid   as mid_test_configs
 import test_utils.test_configs_10__parser_class as class_test_configs
 
-# try:
-#     assert are_identical_nodes(expected, node)
-# except AssertionError:
-#     print()
-#     etree.indent(node)
-#     print(etree.tostring(node).decode('utf-8'))
-#     print()
-#     etree.indent(expected)
-#     print(etree.tostring(expected).decode('utf-8'))
-
 
 # ╔════════════════════════════════════════════════════════════════════════════════════════════╗
 # ║                                 CLASS AND CLASS VARS                                       ║
@@ -41,15 +31,6 @@ def test_parse_class_var_dec(tokens, expected):
 def test_parse_let_statement(tokens, expected):
     node = Parser(tokens)._parse_let_statement()
     assert are_identical_nodes(expected, node)
-    # try:
-    #     assert are_identical_nodes(expected, node)
-    # except AssertionError:
-    #     print()
-    #     etree.indent(node)
-    #     print(etree.tostring(node).decode('utf-8'))
-    #     print()
-    #     etree.indent(expected)
-    #     print(etree.tostring(expected).decode('utf-8'))
 
 
 @parametrize(stmt_test_configs.TESTDATA__PARSE_IF_STATEMENT)
